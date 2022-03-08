@@ -1,17 +1,24 @@
-import Expense from '../model/expense'
-import db from '../db/database'
+import Expense from '../../model/expense'
+import db from '../../db/database'
+import { v4 as uuidv4 } from 'uuid'
 
 const expenseData: Expense[] = [
     {
-        id: 0,
+        id: uuidv4(),
         amount: 1.99,
         category: 'Food',
         date: '2022-03-04'
     },
     {
-        id: 1,
+        id: uuidv4(),
         amount: 27,
         category: 'Furniture',
+        date: '2022-02-06'
+    },
+    {
+        id: uuidv4(),
+        amount: 6.99,
+        category: 'Alcool',
         date: '2022-02-06'
     }
 ]
