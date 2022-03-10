@@ -1,7 +1,7 @@
 import { Column, DataType, Model, PrimaryKey, Table } from "sequelize-typescript"
 
 @Table
-export class Expense extends Model<Expense> {
+export class Transaction extends Model<Transaction> {
 
     @PrimaryKey
     @Column({
@@ -18,4 +18,10 @@ export class Expense extends Model<Expense> {
 
     @Column
     date: string
+
+    @Column(({
+        type: DataType.BOOLEAN,
+        defaultValue: true
+    }))
+    isExpense: boolean
 }
