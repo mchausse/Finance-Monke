@@ -1,0 +1,7 @@
+{
+  "name": "FinanceMonke",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
