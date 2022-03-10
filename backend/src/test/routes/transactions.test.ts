@@ -60,6 +60,28 @@ describe("Testing the transaction routes", () => {
         expect(transactionFound.isExpense).toEqual(transaction.isExpense)
     })
 
+    it('create transaction', async () => {
+        const transaction: Transaction = {
+            amount: 1.99,
+            category: "cat 1",
+            date: "2022",
+            isExpense: true,
+        }
+
+        const response = await axios.post('http://localhost:8081/api/transactions', transaction)
+        console.log("data: ", response.data)
+        const transactionCreated: Transaction = JSON.parse(JSON.stringify(response.data)) as Transaction
+
+        expect(transactionCreated).not.toBeUndefined()
+        expect(transactionCreated).not.toBeNull()
+        expect(transactionCreated.id).not.toBeUndefined()
+
+        expect(transactionCreated.amount).toEqual(transaction.amount)
+        expect(transactionCreated.date).toEqual(transaction.date)
+        expect(transactionCreated.category).toEqual(transaction.category)
+        expect(transactionCreated.isExpense).toEqual(transaction.isExpense)
+    })
+
 })
 
 afterAll(async () => {
