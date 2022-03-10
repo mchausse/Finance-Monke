@@ -52,53 +52,50 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 import {
-  IonList,
-  IonItem,
-  IonContent,
-  IonButton,
-  modalController,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonCard,
-  IonTitle,
-} from "@ionic/vue";
+	IonList,
+	IonItem,
+	IonContent,
+	IonButton,
+	modalController,
+	IonGrid,
+	IonRow,
+	IonCol,
+	IonCard,
+	IonTitle,
+} from '@ionic/vue'
 import {
-  arrowForwardCircleOutline,
-  arrowBackCircleOutline,
-} from "ionicons/icons";
+	arrowForwardCircleOutline,
+	arrowBackCircleOutline,
+} from 'ionicons/icons'
 
 export default defineComponent({
-  name: "AddTransactionModal",
-  props: {
-    isTransactions: Boolean,
-  },
-  components: {
-    IonList,
-    IonItem,
-    IonContent,
-    IonButton,
-    IonGrid,
-    IonRow,
-    IonCol,
-    IonCard,
-    IonTitle,
-  },
-  setup() {
-    const closeModal = () => {
-      console.log("Close");
-      modalController.dismiss();
-    };
+	name: 'AddExpenseModal',
+	components: {
+		IonList,
+		IonItem,
+		IonContent,
+		IonButton,
+		IonGrid,
+		IonRow,
+		IonCol,
+		IonCard,
+		IonTitle,
+	},
+	setup() {
+		const closeModal = () => {
+			console.log('Close')
+			modalController.dismiss()
+		}
 
-    return {
-      closeModal,
-      arrowForwardCircleOutline,
-      arrowBackCircleOutline,
-    };
-  },
-});
+		return {
+			closeModal,
+			arrowForwardCircleOutline,
+			arrowBackCircleOutline,
+		}
+	},
+})
 </script>
 
 <style scoped>

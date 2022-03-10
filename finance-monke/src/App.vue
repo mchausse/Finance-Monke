@@ -91,8 +91,8 @@ export default defineComponent({
     const selectedIndex = ref(0);
     const appPages = [
       {
-        title: "Transactions",
-        url: "/folder/Transactions",
+        title: "Expenses",
+        url: "/folder/Expenses",
         iosIcon: mailOutline,
         mdIcon: mailSharp,
       },

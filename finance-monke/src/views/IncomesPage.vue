@@ -20,27 +20,27 @@
 </template>
 
 <script lang="ts">
-import TransactionsList from "../components/TransactionsList.vue";
+import TransactionsList from '../components/TransactionsList.vue'
 
-import { IonPage, IonFab, IonFabButton, IonIcon } from "@ionic/vue";
-import { add } from "ionicons/icons";
-import { defineComponent } from "vue";
+import { IonPage, IonFab, IonFabButton, IonIcon } from '@ionic/vue'
+import { add } from 'ionicons/icons'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "IncomesPage",
-  components: {
-    IonPage,
-    IonFab,
-    IonFabButton,
-    IonIcon,
-    TransactionsList,
-  },
-  setup() {
-    return {
-      add,
-    };
-  },
-});
+	name: 'IncomesPage',
+	components: {
+		IonPage,
+		IonFab,
+		IonFabButton,
+		IonIcon,
+		TransactionsList,
+	},
+	setup() {
+		return {
+			add,
+		}
+	},
+})
 </script>
 
 <style scoped>

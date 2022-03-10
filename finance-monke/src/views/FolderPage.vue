@@ -25,29 +25,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 import { 
-    IonButtons, 
-    IonContent, 
-    IonHeader, 
-    IonMenuButton, 
-    IonPage, 
-    IonTitle, 
-    IonToolbar
-} from '@ionic/vue';
+	IonButtons, 
+	IonContent, 
+	IonHeader, 
+	IonMenuButton, 
+	IonPage, 
+	IonTitle, 
+	IonToolbar
+} from '@ionic/vue'
 
 export default defineComponent({
-  name: 'FolderPage',
-  components: {
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonMenuButton,
-    IonPage,
-    IonTitle,
-    IonToolbar
-  }
-});
+	name: 'FolderPage',
+	components: {
+		IonButtons,
+		IonContent,
+		IonHeader,
+		IonMenuButton,
+		IonPage,
+		IonTitle,
+		IonToolbar
+	}
+})
 </script>
 
 <style scoped>

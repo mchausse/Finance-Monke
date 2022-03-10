@@ -11,7 +11,7 @@
 
     <ion-fab vertical="center" horizontal="end" slot="fixed">
       <ion-fab-button>
-        <ion-icon :icon="add" @click="openAddTransactionModal"></ion-icon>
+        <ion-icon :icon="add" @click="openAddExpenseModal"></ion-icon>
       </ion-fab-button>
     </ion-fab>
 
@@ -23,42 +23,42 @@
 </template>
 
 <script lang="ts">
-import TransactionsList from "../components/TransactionsList.vue";
-import AddTransactionModal from "../components/modals/AddTransactionModal.vue";
+import TransactionsList from '../components/TransactionsList.vue'
+import AddExpenseModal from '../components/modals/AddExpenseModal.vue'
 
 import {
-  IonPage,
-  IonFab,
-  IonFabButton,
-  IonIcon,
-  modalController,
-} from "@ionic/vue";
-import { add } from "ionicons/icons";
-import { defineComponent } from "vue";
+	IonPage,
+	IonFab,
+	IonFabButton,
+	IonIcon,
+	modalController,
+} from '@ionic/vue'
+import { add } from 'ionicons/icons'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: "TransactionsPage",
-  components: {
-    IonPage,
-    IonFab,
-    IonFabButton,
-    IonIcon,
-    TransactionsList,
-  },
-  setup() {
-    const openAddTransactionModal = async () => {
-      const modal = await modalController.create({
-        component: AddTransactionModal, //Modal is name of the component to render inside ionic modal
-      });
-      return modal.present();
-    };
+	name: 'ExpensesPage',
+	components: {
+		IonPage,
+		IonFab,
+		IonFabButton,
+		IonIcon,
+		TransactionsList,
+	},
+	setup() {
+		const openAddExpenseModal = async () => {
+			const modal = await modalController.create({
+				component: AddExpenseModal, //Modal is name of the component to render inside ionic modal
+			})
+			return modal.present()
+		}
 
-    return {
-      add,
-      openAddTransactionModal,
-    };
-  },
-});
+		return {
+			add,
+			openAddExpenseModal,
+		}
+	},
+})
 </script>
 
 <style scoped>
