@@ -8,13 +8,14 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
-    "test": "jest",
+    "test": "jest --runInBand",
     "migrate": "node ./src/db/bin/migrate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "express": "^4.17.3",
     "pg": "^8.7.3",

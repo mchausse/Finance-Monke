@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript'
-import { Expense } from '../model/expense.model'
+import { Transaction } from '../model/transaction.model'
 
 const sequelize = new Sequelize(
     'postgres',
@@ -12,9 +12,9 @@ const sequelize = new Sequelize(
         dialectOptions: {}
     })
 
-sequelize.addModels([Expense])
+sequelize.addModels([Transaction])
 
 export default {
     sequelize,
-    Expense
+    Transaction
 }
