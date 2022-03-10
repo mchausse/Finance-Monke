@@ -10,18 +10,18 @@ export class User extends Model<User> {
     })
     id: string
 
-    @Column(DataType.DOUBLE)
-    amount: number
+    @Column({
+        type: DataType.UUID,
+        defaultValue: DataType.UUIDV4
+    })
+    token: string
 
     @Column
-    category: string
+    name: string
 
     @Column
-    date: string
+    email: string
 
-    @Column(({
-        type: DataType.BOOLEAN,
-        defaultValue: true
-    }))
-    isExpense: boolean
+    @Column
+    password: string
 }

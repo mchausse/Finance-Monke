@@ -1,30 +1,6 @@
-import Transaction from '../../interfaces/transaction'
+import Transaction from '../../interface/transaction'
 import db from '../../db/database'
-import { v4 as uuidv4 } from 'uuid'
-
-const transactionsData: Transaction[] = [
-    {
-        id: uuidv4(),
-        amount: 1.99,
-        category: 'Food',
-        date: '2022-03-04',
-        isExpense: true
-    },
-    {
-        id: uuidv4(),
-        amount: 27,
-        category: 'Furniture',
-        date: '2022-02-06',
-        isExpense: false
-    },
-    {
-        id: uuidv4(),
-        amount: 6.99,
-        category: 'Alcool',
-        date: '2022-02-06',
-        isExpense: true
-    }
-]
+import transactionsData from '../mock/transaction'
 
 beforeAll(async () => {
     await db.sequelize.sync({ force: true })

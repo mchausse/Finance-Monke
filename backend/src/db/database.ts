@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize-typescript'
 import { Transaction } from '../model/transaction.model'
+import { User } from '../model/user.model'
 
 const sequelize = new Sequelize(
     'postgres',
@@ -13,8 +14,10 @@ const sequelize = new Sequelize(
     })
 
 sequelize.addModels([Transaction])
+sequelize.addModels([User])
 
 export default {
     sequelize,
-    Transaction
+    Transaction,
+    User
 }
