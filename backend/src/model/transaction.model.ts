@@ -10,6 +10,9 @@ export class Transaction extends Model<Transaction> {
     })
     id: string
 
+    @Column(DataType.UUID)
+    token: string
+
     @Column(DataType.DOUBLE)
     amount: number
 

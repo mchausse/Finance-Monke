@@ -4,32 +4,32 @@ import UserServices from "../services/user"
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    const transactionsServices: UserServices = new UserServices()
-    const transactions = await transactionsServices.getAll()
+    const usersServices: UserServices = new UserServices()
+    const users = await usersServices.getAll()
 
-    res.send(transactions)
+    res.send(users)
 })
 
 router.get('/:id', async (req, res) => {
-    const transactionsServices: UserServices = new UserServices()
-    const transactions = await transactionsServices.get(req.params.id)
+    const usersServices: UserServices = new UserServices()
+    const users = await usersServices.get(req.params.id)
 
-    res.send(transactions)
+    res.send(users)
 })
 
 router.post('/', async (req, res) => {
-    const transactionsServices: UserServices = new UserServices()
-    const transactions = await transactionsServices.create(req.body)
+    const usersServices: UserServices = new UserServices()
+    const users = await usersServices.create(req.body)
 
-    res.send(transactions)
+    res.send(users)
 })
 
 router.delete('/:id', async (req, res) => {
-    const transactionsServices: UserServices = new UserServices()
-    const transactions = await transactionsServices.delete(req.params.id)
+    const usersServices: UserServices = new UserServices()
+    const users = await usersServices.delete(req.params.id)
 
     res.send({
-        "Number of transactions deleted": transactions
+        "Number of transactions deleted": users
     })
 })
 

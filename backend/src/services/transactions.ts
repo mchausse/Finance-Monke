@@ -1,11 +1,15 @@
 import db from '../db/database'
 
-import Transaction from "../interface/transaction"
+import Transaction from "../interface/model/transaction"
 
 class TransactionsService {
 
-    public async getAll(): Promise<Transaction[]> {
-        const transactionList: Transaction[] = await db.Transaction.findAll()
+    public async getAll(token: string): Promise<Transaction[]> {
+        const transactionList: Transaction[] = await db.Transaction.findAll({
+            where: {
+                token
+            }
+        })
 
         return transactionList
     }

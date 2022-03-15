@@ -1,11 +1,17 @@
 import express from "express"
+import Transaction from "../interface/model/transaction";
 import TransactionsServices from "../services/transactions"
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
-    const transactionsServices: TransactionsServices = new TransactionsServices()
-    const transactions = await transactionsServices.getAll()
+router.get('/:token', async (req, res) => {
+    const token: string = req.params.token
+    let transactions: Transaction[] = []
+
+    if(token) {
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        transactions = await transactionsServices.getAll(token)
+    }
 
     res.send(transactions)
 })

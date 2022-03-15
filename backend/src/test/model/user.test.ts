@@ -1,4 +1,4 @@
-import User from '../../interface/user'
+import User from '../../interface/model/user'
 import db from '../../db/database'
 import usersData from '../mock/user'
 
