@@ -16,10 +16,15 @@ router.get('/:token', async (req, res) => {
     res.send(transactions)
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:token/:id', async (req, res) => {
+    const token: string = req.params.token
+    const id: string = req.params.id
+    let transactions: Transaction
 
-    const transactionsServices: TransactionsServices = new TransactionsServices()
-    const transactions = await transactionsServices.get(req.params.id)
+    if(token) {
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        transactions = await transactionsServices.get(token, id)
+    }
 
     res.send(transactions)
 })
@@ -31,13 +36,19 @@ router.post('/', async (req, res) => {
     res.send(transactions)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:token/:id', async (req, res) => {
 
-    const transactionsServices: TransactionsServices = new TransactionsServices()
-    const transactions = await transactionsServices.delete(req.params.id)
+    const token: string = req.params.token
+    const id: string = req.params.id
+    let transactionsNumber: number
+
+    if(token) {
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        transactionsNumber = await transactionsServices.delete(token, id)
+    }
 
     res.send({
-        "Number of transactions deleted": transactions
+        "Number of transactions deleted": transactionsNumber
     })
 })
 

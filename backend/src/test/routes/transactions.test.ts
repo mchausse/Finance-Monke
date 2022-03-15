@@ -25,11 +25,6 @@ describe("Testing the transaction routes", () => {
     it('get all transactions', async () => {
         let transactions: Transaction[]
 
-        console.log("transaction 1: ", {
-            ...transactionsData[0],
-            token: userToken
-        })
-
         try {
             await db.Transaction.create({
                 ...transactionsData[0],
@@ -53,8 +48,6 @@ describe("Testing the transaction routes", () => {
         expect(transactionsFound).not.toBeNull()
         expect(transactionsFound.length).not.toBe(0)
 
-        console.log("transactions received : ", transactionsFound)
-
         for(let i = 0; i < transactions.length; i++) {
             expect(transactionsFound[i].id).toEqual(transactions[i].id)
             expect(transactionsFound[i].amount).toEqual(transactions[i].amount)
@@ -75,23 +68,29 @@ describe("Testing the transaction routes", () => {
 
     it('get transaction', async () => {
 
-        const response = await axios.get('http://localhost:8081/api/transactions/'+userToken)
-        const transactionsFound: Transaction[] = JSON.parse(JSON.stringify(response.data)) as Transaction[]
+        try {
+            await db.Transaction.create({
+                ...transactionsData[3],
+                token: userToken
+            })
 
-        if(transactionsFound.length < 1) fail()
+        } catch(error) {
+            console.log(error)
+            fail()
+        }
 
-        const transaction: Transaction = transactionsFound[0]
-        const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionFound = await transactionsServices.get(transaction.id)
+        const response = await axios.get('http://localhost:8081/api/transactions/'+userToken+"/"+transactionsData[3].id)
+        const transactionFound: Transaction = JSON.parse(JSON.stringify(response.data)) as Transaction
+
 
         expect(transactionFound).not.toBeUndefined()
         expect(transactionFound).not.toBeNull()
 
-        expect(transactionFound.id).toEqual(transaction.id)
-        expect(transactionFound.amount).toEqual(transaction.amount)
-        expect(transactionFound.date).toEqual(transaction.date)
-        expect(transactionFound.category).toEqual(transaction.category)
-        expect(transactionFound.isExpense).toEqual(transaction.isExpense)
+        expect(transactionFound.id).toEqual(transactionsData[3].id)
+        expect(transactionFound.amount).toEqual(transactionsData[3].amount)
+        expect(transactionFound.date).toEqual(transactionsData[3].date)
+        expect(transactionFound.category).toEqual(transactionsData[3].category)
+        expect(transactionFound.isExpense).toEqual(transactionsData[3].isExpense)
     })
 
     it('create transaction', async () => {
@@ -104,13 +103,13 @@ describe("Testing the transaction routes", () => {
         }
 
         const response = await axios.post('http://localhost:8081/api/transactions', transaction)
-        console.log("data: ", response.data)
         const transactionCreated: Transaction = JSON.parse(JSON.stringify(response.data)) as Transaction
 
         expect(transactionCreated).not.toBeUndefined()
         expect(transactionCreated).not.toBeNull()
         expect(transactionCreated.id).not.toBeUndefined()
 
+        expect(transactionCreated.token).toEqual(userToken)
         expect(transactionCreated.amount).toEqual(transaction.amount)
         expect(transactionCreated.date).toEqual(transaction.date)
         expect(transactionCreated.category).toEqual(transaction.category)

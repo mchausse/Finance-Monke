@@ -14,9 +14,10 @@ class TransactionsService {
         return transactionList
     }
 
-    public async get(id: string): Promise<Transaction> {
+    public async get(token: string, id: string): Promise<Transaction> {
         const transaction: Transaction = await db.Transaction.findOne({
             where: {
+                token,
                 id
             }
         })
@@ -30,9 +31,10 @@ class TransactionsService {
         return transactionCreated
     }
 
-    public async delete(id: string): Promise<number> {
+    public async delete(token: string, id: string): Promise<number> {
         const transactionDeleted = await db.Transaction.destroy({
             where: {
+                token,
                 id
             }
         })

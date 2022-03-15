@@ -68,7 +68,6 @@ describe("Testing the user routes", () => {
         }
 
         const response = await axios.post('http://localhost:8081/api/users', user)
-        console.log("data: ", response.data)
         const userCreated: User = JSON.parse(JSON.stringify(response.data)) as User
 
         expect(userCreated).not.toBeUndefined()
