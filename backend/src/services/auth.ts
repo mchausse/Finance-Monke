@@ -1,8 +1,8 @@
 import db from '../db/database'
 
-import User from "../interface/user"
+import User from "../interface/model/user"
 
-class LoginService {
+class AuthService {
 
     public async getToken(email: string, password: string): Promise<string> {
         const user: User = await db.User.findOne({
@@ -18,4 +18,4 @@ class LoginService {
 
 }
 
-export default LoginService
+export default AuthService

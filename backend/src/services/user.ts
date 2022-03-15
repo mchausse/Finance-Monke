@@ -1,6 +1,6 @@
 import db from '../db/database'
 
-import User from "../interface/user"
+import User from "../interface/model/user"
 
 class UserService {
 

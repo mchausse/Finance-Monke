@@ -1,5 +1,5 @@
 import express from "express"
-import LoginService from "../services/auth"
+import AuthService from "../services/auth"
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.post('/login', async (req, res) => {
     let token: string = ""
 
     if((email && password) !== "") {
-        const loginService: LoginService = new LoginService()
+        const loginService: AuthService = new AuthService()
         token = await loginService.getToken(email, password)
     }
 

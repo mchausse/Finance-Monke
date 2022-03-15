@@ -1,6 +1,6 @@
 import db from '../db/database'
 
-import Transaction from "../interface/transaction"
+import Transaction from "../interface/model/transaction"
 
 class TransactionsService {
 

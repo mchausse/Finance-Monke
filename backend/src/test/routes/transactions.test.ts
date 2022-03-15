@@ -1,4 +1,4 @@
-import Transaction from '../../interface/transaction'
+import Transaction from '../../interface/model/transaction'
 import db from '../../db/database'
 import TransactionsServices from '../../services/transactions'
 import axios from 'axios'
