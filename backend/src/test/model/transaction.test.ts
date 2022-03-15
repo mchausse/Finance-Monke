@@ -16,6 +16,7 @@ describe("Testing the transaction models", () => {
             expect(transactionCreated).not.toBeNull()
 
             expect(transactionCreated.id).toEqual(transactionsData[0].id)
+            expect(transactionCreated.token).toEqual(transactionsData[0].token)
             expect(transactionCreated.amount).toEqual(transactionsData[0].amount)
             expect(transactionCreated.category).toEqual(transactionsData[0].category)
             expect(transactionCreated.date).toEqual(transactionsData[0].date)
@@ -32,7 +33,9 @@ describe("Testing the transaction models", () => {
 
             expect(transactionFound).not.toBeUndefined()
             expect(transactionFound).not.toBeNull()
+
             expect(transactionFound.id).toEqual(transactionsData[0].id)
+            expect(transactionFound.token).toEqual(transactionsData[0].token)
             expect(transactionFound.amount).toEqual(transactionsData[0].amount)
             expect(transactionFound.category).toEqual(transactionsData[0].category)
             expect(transactionFound.date).toEqual(transactionsData[0].date)
@@ -52,6 +55,7 @@ describe("Testing the transaction models", () => {
             expect(transactionFound.length).toEqual(2)
 
             expect(transactionFound[0].id).toEqual(transactionsData[0].id)
+            expect(transactionFound[0].token).toEqual(transactionsData[0].token)
             expect(transactionFound[0].amount).toEqual(transactionsData[0].amount)
             expect(transactionFound[0].category).toEqual(transactionsData[0].category)
             expect(transactionFound[0].date).toEqual(transactionsData[0].date)

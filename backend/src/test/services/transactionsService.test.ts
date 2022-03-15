@@ -2,9 +2,20 @@ import Transaction from '../../interface/model/transaction'
 import db from '../../db/database'
 import TransactionsServices from '../../services/transactions'
 import transactionsData from '../mock/transaction'
+import User from '../../interface/model/user'
+import UserService from '../../services/user'
 
+let userToken:string = ""
 
 beforeAll(async () => {
+    const user: User = {
+        name: "test",
+        email: "test@test.com",
+        password: "test123",
+    }
+
+    const usersService: UserService = new UserService()
+    userToken = (await usersService.create(user)).token
     await db.sequelize.sync({ force: true })
 })
 
@@ -14,8 +25,14 @@ describe("Testing the transaction service", () => {
         let transactions: Transaction[]
 
         try {
-            await db.Transaction.create(transactionsData[0])
-            await db.Transaction.create(transactionsData[1])
+            await db.Transaction.create({
+                ...transactionsData[0],
+                token: userToken
+            })
+            await db.Transaction.create({
+                ...transactionsData[1],
+                token: userToken
+            })
             transactions = await db.Transaction.findAll()
 
         } catch(error) {
@@ -23,15 +40,16 @@ describe("Testing the transaction service", () => {
             fail()
         }
 
-
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionsFound = await transactionsServices.getAll()
+        const transactionsFound = await transactionsServices.getAll(userToken)
 
         expect(transactionsFound).not.toBeUndefined()
         expect(transactionsFound).not.toBeNull()
+        expect(transactionsFound.length).not.toBe(0)
 
         for(let i = 0; i < transactions.length; i++) {
             expect(transactionsFound[i].id).toEqual(transactions[i].id)
+            expect(transactionsFound[i].token).toEqual(transactions[i].token)
             expect(transactionsFound[i].amount).toEqual(transactions[i].amount)
             expect(transactionsFound[i].date).toEqual(transactions[i].date)
             expect(transactionsFound[i].category).toEqual(transactions[i].category)
@@ -65,6 +83,7 @@ describe("Testing the transaction service", () => {
 
     it('create transaction', async () => {
         const transaction: Transaction = {
+            token: userToken,
             amount: 24.66,
             category: 'Alcool',
             date: '2022-02-06',
