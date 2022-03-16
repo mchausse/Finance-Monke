@@ -17,7 +17,6 @@ router.post('/login', async (req, res) => {
         token,
         error: token === "" ? "Wrong email or password" : null
     })
-    console.log("test")
 })
 
 export default router

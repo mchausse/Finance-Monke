@@ -58,27 +58,28 @@ describe("Testing the transaction service", () => {
     })
 
     it('get transaction', async () => {
-        let transaction: Transaction
-
         try {
-            transaction = await db.Transaction.create(transactionsData[2])
-
+            await db.Transaction.create({
+                ...transactionsData[2],
+                token: userToken
+            })
         } catch(error) {
             console.log(error)
             fail()
         }
 
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionFound = await transactionsServices.get(transaction.id)
+        const transactionFound = await transactionsServices.get(userToken, transactionsData[2].id)
 
         expect(transactionFound).not.toBeUndefined()
         expect(transactionFound).not.toBeNull()
 
-        expect(transactionFound.id).toEqual(transaction.id)
-        expect(transactionFound.amount).toEqual(transaction.amount)
-        expect(transactionFound.date).toEqual(transaction.date)
-        expect(transactionFound.category).toEqual(transaction.category)
-        expect(transactionFound.isExpense).toEqual(transaction.isExpense)
+        expect(transactionFound.id).toEqual(transactionsData[2].id)
+        expect(transactionFound.token).toEqual(userToken)
+        expect(transactionFound.amount).toEqual(transactionsData[2].amount)
+        expect(transactionFound.date).toEqual(transactionsData[2].date)
+        expect(transactionFound.category).toEqual(transactionsData[2].category)
+        expect(transactionFound.isExpense).toEqual(transactionsData[2].isExpense)
     })
 
     it('create transaction', async () => {
@@ -118,7 +119,7 @@ describe("Testing the transaction service", () => {
         }
 
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionDeleted = await transactionsServices.delete(transactionsData[0].id)
+        const transactionDeleted = await transactionsServices.delete(userToken, transactionsData[0].id)
 
         expect(transactionDeleted).not.toBeUndefined()
         expect(transactionDeleted).not.toBeNull()
