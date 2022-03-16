@@ -1,6 +1,6 @@
 <template>
   <ion-app>
-    <ion-split-pane content-id="main-content">
+    <ion-split-pane v-if="userToken" content-id="main-content">
       <ion-menu content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
@@ -30,10 +30,16 @@
               </ion-item>
             </ion-menu-toggle>
           </ion-list>
+          <ion-button expand="full" color="light" @click="logout"
+            >Log Out</ion-button
+          >
         </ion-content>
       </ion-menu>
       <ion-router-outlet id="main-content"></ion-router-outlet>
     </ion-split-pane>
+    <div v-if="!userToken">
+      <LoginPage></LoginPage>
+    </div>
   </ion-app>
 </template>
 
@@ -51,6 +57,7 @@ import {
   IonNote,
   IonRouterOutlet,
   IonSplitPane,
+  IonButton,
 } from "@ionic/vue";
 import { defineComponent, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -70,6 +77,7 @@ import {
   warningOutline,
   warningSharp,
 } from "ionicons/icons";
+import LoginPage from "./views/LoginPage.vue";
 
 export default defineComponent({
   name: "App",
@@ -86,6 +94,14 @@ export default defineComponent({
     IonNote,
     IonRouterOutlet,
     IonSplitPane,
+    LoginPage,
+    IonButton,
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem("userToken");
+      window.location.href = "/";
+    },
   },
   setup() {
     const selectedIndex = ref(0);
@@ -137,6 +153,7 @@ export default defineComponent({
     return {
       appName: "Finance Monke",
       username: "Maxime Chaussé",
+      userToken: localStorage.getItem("userToken"),
     };
   },
 });
