@@ -53,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent } from 'vue'
 import {
     IonList,
     IonItem,
@@ -65,14 +65,14 @@ import {
     IonCol,
     IonCard,
     IonTitle,
-} from "@ionic/vue"
+} from '@ionic/vue'
 import {
     arrowForwardCircleOutline,
     arrowBackCircleOutline,
-} from "ionicons/icons"
+} from 'ionicons/icons'
 
 export default defineComponent({
-    name: "AddExpenseModal",
+    name: 'AddExpenseModal',
     components: {
         IonList,
         IonItem,
@@ -86,7 +86,7 @@ export default defineComponent({
     },
     setup() {
         const closeModal = () => {
-            console.log("Close")
+            console.log('Close')
             modalController.dismiss()
         }
 

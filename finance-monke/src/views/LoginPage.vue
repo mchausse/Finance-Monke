@@ -40,12 +40,12 @@ import {
     IonInput,
     IonItem,
     IonLabel,
-} from "@ionic/vue"
-import { defineComponent } from "vue"
-import axios from "axios"
+} from '@ionic/vue'
+import { defineComponent } from 'vue'
+import axios from 'axios'
 
 export default defineComponent({
-    name: "LoginPage",
+    name: 'LoginPage',
     components: {
         IonPage,
         IonCard,
@@ -60,7 +60,7 @@ export default defineComponent({
             console.log(password)
 
             const response = await axios.post(
-                "http://10.10.10.185:8081/api/auth/login",
+                'http://10.10.10.185:8081/api/auth/login',
                 {
                     email,
                     password,
@@ -69,14 +69,14 @@ export default defineComponent({
             const responseData = JSON.parse(JSON.stringify(response.data))
             const userToken = responseData.token
 
-            if (userToken) localStorage.setItem("userToken", userToken)
-            window.location.href = "/folder/Expenses"
+            if (userToken) localStorage.setItem('userToken', userToken)
+            window.location.href = '/folder/Expenses'
         },
     },
     data() {
         return {
-            email: "",
-            password: "",
+            email: '',
+            password: '',
         }
     },
 })

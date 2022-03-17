@@ -4,5 +4,7 @@
     "endOfLine": "auto",
     "tabWidth": 4,
     "bracketSpacing": true,
-    "bracketSameLine": true
+    "bracketSameLine": true,
+    "singleQuote": true,
+    "quoteProps": "consistent"
 }

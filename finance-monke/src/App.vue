@@ -55,9 +55,9 @@ import {
     IonRouterOutlet,
     IonSplitPane,
     IonButton,
-} from "@ionic/vue"
-import { defineComponent, ref } from "vue"
-import { useRoute } from "vue-router"
+} from '@ionic/vue'
+import { defineComponent, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import {
     archiveOutline,
     archiveSharp,
@@ -73,11 +73,11 @@ import {
     trashSharp,
     warningOutline,
     warningSharp,
-} from "ionicons/icons"
-import LoginPage from "./views/LoginPage.vue"
+} from 'ionicons/icons'
+import LoginPage from './views/LoginPage.vue'
 
 export default defineComponent({
-    name: "App",
+    name: 'App',
     components: {
         IonApp,
         IonContent,
@@ -96,28 +96,28 @@ export default defineComponent({
     },
     methods: {
         logout() {
-            localStorage.removeItem("userToken")
-            window.location.href = "/"
+            localStorage.removeItem('userToken')
+            window.location.href = '/'
         },
     },
     setup() {
         const selectedIndex = ref(0)
         const appPages = [
             {
-                title: "Expenses",
-                url: "/folder/Expenses",
+                title: 'Expenses',
+                url: '/folder/Expenses',
                 iosIcon: mailOutline,
                 mdIcon: mailSharp,
             },
             {
-                title: "Incomes",
-                url: "/folder/Incomes",
+                title: 'Incomes',
+                url: '/folder/Incomes',
                 iosIcon: mailOutline,
                 mdIcon: mailSharp,
             },
         ]
 
-        const path = window.location.pathname.split("folder/")[1]
+        const path = window.location.pathname.split('folder/')[1]
         if (path !== undefined) {
             selectedIndex.value = appPages.findIndex(
                 (page) => page.title.toLowerCase() === path.toLowerCase()
@@ -143,14 +143,14 @@ export default defineComponent({
             trashSharp,
             warningOutline,
             warningSharp,
-            isSelected: (url: string) => (url === route.path ? "selected" : ""),
+            isSelected: (url: string) => (url === route.path ? 'selected' : ''),
         }
     },
     data() {
         return {
-            appName: "Finance Monke",
-            username: "Maxime Chaussé",
-            userToken: localStorage.getItem("userToken"),
+            appName: 'Finance Monke',
+            username: 'Maxime Chaussé',
+            userToken: localStorage.getItem('userToken'),
         }
     },
 })
