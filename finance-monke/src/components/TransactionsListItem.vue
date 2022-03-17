@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"
+import { defineComponent } from 'vue'
 import {
     IonLabel,
     IonButton,
@@ -26,11 +26,11 @@ import {
     IonGrid,
     IonRow,
     IonCol,
-} from "@ionic/vue"
-import { ellipsisHorizontalOutline } from "ionicons/icons"
+} from '@ionic/vue'
+import { ellipsisHorizontalOutline } from 'ionicons/icons'
 
 export default defineComponent({
-    name: "TransactionsList",
+    name: 'TransactionsList',
     props: {
         transaction: Object,
     },

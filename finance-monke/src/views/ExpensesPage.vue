@@ -5,7 +5,7 @@
                 <ion-buttons>
                     <ion-menu-button color="primary"></ion-menu-button>
                 </ion-buttons>
-                <ion-title id="title">Transactions</ion-title>
+                <ion-title id="title">Expenses</ion-title>
             </ion-toolbar>
         </ion-header>
 
@@ -22,8 +22,8 @@
 </template>
 
 <script lang="ts">
-import TransactionsList from "../components/TransactionsList.vue"
-import AddExpenseModal from "../components/modals/AddExpenseModal.vue"
+import TransactionsList from '../components/TransactionsList.vue'
+import AddExpenseModal from '../components/modals/AddExpenseModal.vue'
 
 import {
     IonPage,
@@ -31,12 +31,12 @@ import {
     IonFabButton,
     IonIcon,
     modalController,
-} from "@ionic/vue"
-import { add } from "ionicons/icons"
-import { defineComponent } from "vue"
+} from '@ionic/vue'
+import { add } from 'ionicons/icons'
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-    name: "ExpensesPage",
+    name: 'ExpensesPage',
     components: {
         IonPage,
         IonFab,

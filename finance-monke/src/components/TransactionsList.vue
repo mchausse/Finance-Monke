@@ -11,10 +11,10 @@
 </template>
 
 <script lang="ts">
-import moment from 'moment'
+import axios from 'axios'
 import TransactionsListItem from '../components/TransactionsListItem.vue'
+import Transaction from '../model/transaction'
 
-import { v4 as uuid } from 'uuid'
 import { defineComponent } from 'vue'
 import { IonList, IonItem, IonContent } from '@ionic/vue'
 
@@ -29,72 +29,24 @@ export default defineComponent({
         TransactionsListItem,
         IonContent,
     },
+    methods: {
+        async getExpenses(token: string): Promise<Transaction[]> {
+            const response = await axios.get(
+                'http://10.10.10.185:8081/api/transactions/' + token
+            )
+            return JSON.parse(JSON.stringify(response.data))
+        },
+    },
+    async mounted() {
+        const userToken = localStorage.getItem('userToken')
+        if (userToken) {
+            this.expenses = await this.getExpenses(userToken)
+        }
+    },
     data() {
         return {
-            expenses: [
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '12.99',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '23.89',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '12.99',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '23.89',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '12.99',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '23.89',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '12.99',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Resto',
-                    amount: '23.89',
-                    date: moment().format('MMM Do YY'),
-                },
-            ],
-            incomes: [
-                {
-                    id: uuid(),
-                    category: 'Logient',
-                    amount: '1221.26',
-                    date: moment().format('MMM Do YY'),
-                },
-                {
-                    id: uuid(),
-                    category: 'Gift',
-                    amount: '50.00',
-                    date: moment().format('MMM Do YY'),
-                },
-            ],
+            expenses: [] as Transaction[],
+            incomes: [] as Transaction[],
         }
     },
 })
