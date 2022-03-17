@@ -66,19 +66,55 @@ describe("Testing the transaction routes", () => {
         expect(transactionsFound.length).toBe(0)
     })
 
-    it('get transaction', async () => {
-
+    it('test the expenses route', async () => {
         try {
+            await db.Transaction.create({
+                ...transactionsData[2],
+                token: userToken
+            })
             await db.Transaction.create({
                 ...transactionsData[3],
                 token: userToken
             })
+            await db.Transaction.create({
+                ...transactionsData[4],
+                token: userToken
+            })
+            await db.Transaction.findAll()
 
         } catch(error) {
             console.log(error)
             fail()
         }
 
+        const numberOfExpenses = 3
+        const response = await axios.get('http://localhost:8081/api/transactions/expenses/'+userToken)
+        const transactionsFound: Transaction[] = JSON.parse(JSON.stringify(response.data)) as Transaction[]
+
+        expect(transactionsFound).not.toBeUndefined()
+        expect(transactionsFound).not.toBeNull()
+        expect(transactionsFound.length).toBe(numberOfExpenses)
+
+        for(let i = 0; i < numberOfExpenses; i++) {
+            expect(transactionsFound[i].isExpense).toEqual(true)
+        }
+    })
+
+    it('test the incomes route', async () => {
+        const numberOfExpenses = 2
+        const response = await axios.get('http://localhost:8081/api/transactions/incomes/'+userToken)
+        const transactionsFound: Transaction[] = JSON.parse(JSON.stringify(response.data)) as Transaction[]
+
+        expect(transactionsFound).not.toBeUndefined()
+        expect(transactionsFound).not.toBeNull()
+        expect(transactionsFound.length).toBe(numberOfExpenses)
+
+        for(let i = 0; i < numberOfExpenses; i++) {
+            expect(transactionsFound[i].isExpense).toEqual(false)
+        }
+    })
+
+    it('get transaction', async () => {
         const response = await axios.get('http://localhost:8081/api/transactions/'+userToken+"/"+transactionsData[3].id)
         const transactionFound: Transaction = JSON.parse(JSON.stringify(response.data)) as Transaction
 

@@ -16,6 +16,30 @@ router.get('/:token', async (req, res) => {
     res.send(transactions)
 })
 
+router.get('/expenses/:token', async (req, res) => {
+    const token: string = req.params.token
+    let transactions: Transaction[] = []
+
+    if(token) {
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        transactions = await transactionsServices.getAllExpenses(token)
+    }
+
+    res.send(transactions)
+})
+
+router.get('/incomes/:token', async (req, res) => {
+    const token: string = req.params.token
+    let transactions: Transaction[] = []
+
+    if(token) {
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        transactions = await transactionsServices.getAllIncomes(token)
+    }
+
+    res.send(transactions)
+})
+
 router.get('/:token/:id', async (req, res) => {
     const token: string = req.params.token
     const id: string = req.params.id

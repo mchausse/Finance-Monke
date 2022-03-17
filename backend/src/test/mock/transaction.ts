@@ -33,6 +33,14 @@ const transactions: Transaction[] = [
         category: 'Alcool',
         date: '2022-02-06',
         isExpense: true
+    },
+    {
+        id: uuidv4(),
+        token: "5dbc7a9f-1235-4901-bc16-f8c0482962e9",
+        amount: 22.62,
+        category: 'Alcool',
+        date: '2022-02-06',
+        isExpense: true
     }
 ]
 

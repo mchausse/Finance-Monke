@@ -57,16 +57,55 @@ describe("Testing the transaction service", () => {
         }
     })
 
-    it('get transaction', async () => {
+    it('get all expenses', async () => {
         try {
             await db.Transaction.create({
                 ...transactionsData[2],
                 token: userToken
             })
+            await db.Transaction.create({
+                ...transactionsData[3],
+                token: userToken
+            })
+            await db.Transaction.create({
+                ...transactionsData[4],
+                token: userToken
+            })
+            await db.Transaction.findAll()
+
         } catch(error) {
             console.log(error)
             fail()
         }
+
+        const numberOfExpenses = 3
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        const transactionsFound = await transactionsServices.getAllExpenses(userToken)
+
+        expect(transactionsFound).not.toBeUndefined()
+        expect(transactionsFound).not.toBeNull()
+        expect(transactionsFound.length).toBe(numberOfExpenses)
+
+        for(let i = 0; i < numberOfExpenses; i++) {
+            expect(transactionsFound[i].isExpense).toEqual(true)
+        }
+    })
+
+    it('get all incomes', async () => {
+        const numberOfExpenses = 2
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        const transactionsFound = await transactionsServices.getAllIncomes(userToken)
+
+        expect(transactionsFound).not.toBeUndefined()
+        expect(transactionsFound).not.toBeNull()
+        expect(transactionsFound.length).toBe(numberOfExpenses)
+
+        for(let i = 0; i < numberOfExpenses; i++) {
+            expect(transactionsFound[i].isExpense).toEqual(false)
+        }
+    })
+
+    it('get transaction', async () => {
 
         const transactionsServices: TransactionsServices = new TransactionsServices()
         const transactionFound = await transactionsServices.get(userToken, transactionsData[2].id)

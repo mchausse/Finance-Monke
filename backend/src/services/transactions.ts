@@ -14,6 +14,28 @@ class TransactionsService {
         return transactionList
     }
 
+    public async getAllExpenses(token: string): Promise<Transaction[]> {
+        const transactionList: Transaction[] = await db.Transaction.findAll({
+            where: {
+                token,
+                isExpense: true
+            }
+        })
+
+        return transactionList
+    }
+
+    public async getAllIncomes(token: string): Promise<Transaction[]> {
+        const transactionList: Transaction[] = await db.Transaction.findAll({
+            where: {
+                token,
+                isExpense: false
+            }
+        })
+
+        return transactionList
+    }
+
     public async get(token: string, id: string): Promise<Transaction> {
         const transaction: Transaction = await db.Transaction.findOne({
             where: {
