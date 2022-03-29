@@ -6,7 +6,7 @@ import LoginResponse from '../../interface/routes/response/auth'
 
 
 beforeAll(async () => {
-    await db.sequelize.sync({ force: true })
+    // await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the auth route", () => {

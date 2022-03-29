@@ -5,7 +5,7 @@ import AuthService from '../../services/auth'
 
 
 beforeAll(async () => {
-    await db.sequelize.sync({ force: true })
+    // await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the auth service", () => {

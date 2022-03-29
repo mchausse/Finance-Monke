@@ -3,20 +3,20 @@ import db from '../../db/database'
 import transactionsData from '../mock/transaction'
 
 beforeAll(async () => {
-    await db.sequelize.sync({ force: true })
+    // await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the transaction models", () => {
 
     it('create transaction', async () => {
         try {
-            const transactionCreated = await db.Transaction.create(transactionsData[0])
+            const transactionCreated = await db.Transaction.create(transactionsData[0] as any)
 
             expect(transactionCreated).not.toBeUndefined()
             expect(transactionCreated).not.toBeNull()
 
             expect(transactionCreated.id).toEqual(transactionsData[0].id)
-            expect(transactionCreated.token).toEqual(transactionsData[0].token)
+            expect(transactionCreated.userId).toEqual(transactionsData[0].userId)
             expect(transactionCreated.amount).toEqual(transactionsData[0].amount)
             expect(transactionCreated.category).toEqual(transactionsData[0].category)
             expect(transactionCreated.date).toEqual(transactionsData[0].date)
@@ -35,7 +35,7 @@ describe("Testing the transaction models", () => {
             expect(transactionFound).not.toBeNull()
 
             expect(transactionFound.id).toEqual(transactionsData[0].id)
-            expect(transactionFound.token).toEqual(transactionsData[0].token)
+            expect(transactionFound.userId).toEqual(transactionsData[0].userId)
             expect(transactionFound.amount).toEqual(transactionsData[0].amount)
             expect(transactionFound.category).toEqual(transactionsData[0].category)
             expect(transactionFound.date).toEqual(transactionsData[0].date)
@@ -48,14 +48,14 @@ describe("Testing the transaction models", () => {
 
     it('get all transactions', async () => {
         try {
-            await db.Transaction.create(transactionsData[1])
+            await db.Transaction.create(transactionsData[1] as any)
             const transactionFound: Transaction[] = await db.Transaction.findAll()
 
             expect(transactionFound).not.toBeUndefined()
             expect(transactionFound.length).toEqual(2)
 
             expect(transactionFound[0].id).toEqual(transactionsData[0].id)
-            expect(transactionFound[0].token).toEqual(transactionsData[0].token)
+            expect(transactionFound[0].userId).toEqual(transactionsData[0].userId)
             expect(transactionFound[0].amount).toEqual(transactionsData[0].amount)
             expect(transactionFound[0].category).toEqual(transactionsData[0].category)
             expect(transactionFound[0].date).toEqual(transactionsData[0].date)
@@ -87,5 +87,5 @@ describe("Testing the transaction models", () => {
 })
 
 afterAll(async () => {
-    await db.sequelize.close()
+    // await db.sequelize.close()
 });

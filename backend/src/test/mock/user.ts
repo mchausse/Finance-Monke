@@ -1,7 +1,7 @@
 import User from "../../interface/model/user"
 import { v4 as uuidv4 } from 'uuid'
 
-const users: User[] = [
+const users: any[] = [
     {
         id: uuidv4(),
         token: uuidv4(),

@@ -3,7 +3,7 @@ import db from '../../db/database'
 import usersData from '../mock/user'
 
 beforeAll(async () => {
-    await db.sequelize.sync({ force: true })
+    // await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the user models", () => {
@@ -83,5 +83,5 @@ describe("Testing the user models", () => {
 })
 
 afterAll(async () => {
-    await db.sequelize.close()
+    // await db.sequelize.close()
 });

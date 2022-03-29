@@ -16,7 +16,7 @@ beforeAll(async () => {
 
     const usersService: UserService = new UserService()
     userToken = (await usersService.create(user)).token
-    await db.sequelize.sync({ force: true })
+    // await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the transaction service", () => {
@@ -49,7 +49,7 @@ describe("Testing the transaction service", () => {
 
         for(let i = 0; i < transactions.length; i++) {
             expect(transactionsFound[i].id).toEqual(transactions[i].id)
-            expect(transactionsFound[i].token).toEqual(transactions[i].token)
+            expect(transactionsFound[i].userId).toEqual(transactions[i].userId)
             expect(transactionsFound[i].amount).toEqual(transactions[i].amount)
             expect(transactionsFound[i].date).toEqual(transactions[i].date)
             expect(transactionsFound[i].category).toEqual(transactions[i].category)
@@ -114,7 +114,7 @@ describe("Testing the transaction service", () => {
         expect(transactionFound).not.toBeNull()
 
         expect(transactionFound.id).toEqual(transactionsData[2].id)
-        expect(transactionFound.token).toEqual(userToken)
+        expect(transactionFound.userId).toEqual(userToken)
         expect(transactionFound.amount).toEqual(transactionsData[2].amount)
         expect(transactionFound.date).toEqual(transactionsData[2].date)
         expect(transactionFound.category).toEqual(transactionsData[2].category)
@@ -123,7 +123,7 @@ describe("Testing the transaction service", () => {
 
     it('create transaction', async () => {
         const transaction: Transaction = {
-            token: userToken,
+            userId: userToken,
             amount: 24.66,
             category: 'Alcool',
             date: '2022-02-06',
@@ -178,5 +178,5 @@ describe("Testing the transaction service", () => {
 })
 
 afterAll(async () => {
-    await db.sequelize.close()
+    // await db.sequelize.close()
 });

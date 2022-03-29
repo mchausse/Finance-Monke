@@ -20,7 +20,7 @@ class UserService {
         return user
     }
 
-    public async create(transaction: User): Promise<User> {
+    public async create(transaction: any): Promise<User> {
         const userCreated = await db.User.create(transaction)
 
         return userCreated
