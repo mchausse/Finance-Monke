@@ -5,19 +5,20 @@ import axios from 'axios'
 import transactionsData from '../mock/transaction'
 import User from '../../interface/model/user'
 import UserService from '../../services/user'
+import AuthService from '../../services/auth'
 
 let userToken:string = ""
 
 beforeAll(async () => {
+    await db.sequelize.sync({ force: true })
     const user: User = {
         name: "test",
-        email: "test@test.com",
+        email: "test@test4.com",
         password: "test123",
     }
 
     const usersService: UserService = new UserService()
     userToken = (await usersService.create(user)).token
-    // await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the transaction routes", () => {
@@ -25,14 +26,23 @@ describe("Testing the transaction routes", () => {
     it('get all transactions', async () => {
         let transactions: Transaction[]
 
+        const authService: AuthService = new AuthService()
+        const tokenFound: string = await authService.getToken("test@test4.com", "test123")
+        if(!tokenFound) fail()
+
+        const userIdFound: string = await authService.getUserId(tokenFound)
+        if(!userIdFound) fail()
+
         try {
+            console.log("all users ", await db.User.findAll())
+            console.log("userIdFound ", userIdFound)
             await db.Transaction.create({
                 ...transactionsData[0],
-                token: userToken
+                userId: userIdFound
             })
             await db.Transaction.create({
                 ...transactionsData[1],
-                token: userToken
+                userId: userIdFound
             })
             transactions = await db.Transaction.findAll()
 
@@ -67,18 +77,26 @@ describe("Testing the transaction routes", () => {
     })
 
     it('test the expenses route', async () => {
+        const authService: AuthService = new AuthService()
+        const tokenFound: string = await authService.getToken("test@test4.com", "test123")
+        if(!tokenFound) fail()
+
+        const userIdFound: string = await authService.getUserId(tokenFound)
+        if(!userIdFound) fail()
+
         try {
+            console.log("userIdFound ", userIdFound)
             await db.Transaction.create({
                 ...transactionsData[2],
-                token: userToken
+                userId: userIdFound
             })
             await db.Transaction.create({
                 ...transactionsData[3],
-                token: userToken
+                userId: userIdFound
             })
             await db.Transaction.create({
                 ...transactionsData[4],
-                token: userToken
+                userId: userIdFound
             })
             await db.Transaction.findAll()
 
@@ -130,8 +148,16 @@ describe("Testing the transaction routes", () => {
     })
 
     it('create transaction', async () => {
+
+        const authService: AuthService = new AuthService()
+        const tokenFound: string = await authService.getToken("test@test4.com", "test123")
+        if(!tokenFound) fail()
+
+        const userIdFound: string = await authService.getUserId(tokenFound)
+        if(!userIdFound) fail()
+
         const transaction: Transaction = {
-            userId: userToken,
+            userId: userIdFound,
             amount: 1.99,
             category: "cat 1",
             date: "2022",
@@ -145,7 +171,7 @@ describe("Testing the transaction routes", () => {
         expect(transactionCreated).not.toBeNull()
         expect(transactionCreated.id).not.toBeUndefined()
 
-        expect(transactionCreated.userId).toEqual(userToken)
+        expect(transactionCreated.userId).toEqual(userIdFound)
         expect(transactionCreated.amount).toEqual(transaction.amount)
         expect(transactionCreated.date).toEqual(transaction.date)
         expect(transactionCreated.category).toEqual(transaction.category)
@@ -155,5 +181,5 @@ describe("Testing the transaction routes", () => {
 })
 
 afterAll(async () => {
-    // await db.sequelize.close()
+    await db.sequelize.close()
 });

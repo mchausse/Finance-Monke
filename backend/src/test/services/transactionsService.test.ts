@@ -5,9 +5,10 @@ import transactionsData from '../mock/transaction'
 import User from '../../interface/model/user'
 import UserService from '../../services/user'
 
-let userToken:string = ""
+let userId:string = ""
 
 beforeAll(async () => {
+    await db.sequelize.sync({ force: true })
     const user: User = {
         name: "test",
         email: "test@test.com",
@@ -15,8 +16,7 @@ beforeAll(async () => {
     }
 
     const usersService: UserService = new UserService()
-    userToken = (await usersService.create(user)).token
-    // await db.sequelize.sync({ force: true })
+    userId = (await usersService.create(user)).id
 })
 
 describe("Testing the transaction service", () => {
@@ -24,14 +24,18 @@ describe("Testing the transaction service", () => {
     it('get all transactions', async () => {
         let transactions: Transaction[]
 
+        const usersService: UserService = new UserService()
+        const user = await usersService.get(userId)
+        if(!user) fail()
+
         try {
             await db.Transaction.create({
                 ...transactionsData[0],
-                token: userToken
+                userId
             })
             await db.Transaction.create({
                 ...transactionsData[1],
-                token: userToken
+                userId
             })
             transactions = await db.Transaction.findAll()
 
@@ -41,7 +45,7 @@ describe("Testing the transaction service", () => {
         }
 
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionsFound = await transactionsServices.getAll(userToken)
+        const transactionsFound = await transactionsServices.getAll(userId)
 
         expect(transactionsFound).not.toBeUndefined()
         expect(transactionsFound).not.toBeNull()
@@ -58,18 +62,23 @@ describe("Testing the transaction service", () => {
     })
 
     it('get all expenses', async () => {
+
+        const usersService: UserService = new UserService()
+        const user = await usersService.get(userId)
+        if(!user) fail()
+
         try {
             await db.Transaction.create({
                 ...transactionsData[2],
-                token: userToken
+                userId
             })
             await db.Transaction.create({
                 ...transactionsData[3],
-                token: userToken
+                userId
             })
             await db.Transaction.create({
                 ...transactionsData[4],
-                token: userToken
+                userId
             })
             await db.Transaction.findAll()
 
@@ -80,7 +89,7 @@ describe("Testing the transaction service", () => {
 
         const numberOfExpenses = 3
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionsFound = await transactionsServices.getAllExpenses(userToken)
+        const transactionsFound = await transactionsServices.getAllExpenses(userId)
 
         expect(transactionsFound).not.toBeUndefined()
         expect(transactionsFound).not.toBeNull()
@@ -94,7 +103,7 @@ describe("Testing the transaction service", () => {
     it('get all incomes', async () => {
         const numberOfExpenses = 2
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionsFound = await transactionsServices.getAllIncomes(userToken)
+        const transactionsFound = await transactionsServices.getAllIncomes(userId)
 
         expect(transactionsFound).not.toBeUndefined()
         expect(transactionsFound).not.toBeNull()
@@ -108,13 +117,13 @@ describe("Testing the transaction service", () => {
     it('get transaction', async () => {
 
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionFound = await transactionsServices.get(userToken, transactionsData[2].id)
+        const transactionFound = await transactionsServices.get(userId, transactionsData[2].id)
 
         expect(transactionFound).not.toBeUndefined()
         expect(transactionFound).not.toBeNull()
 
         expect(transactionFound.id).toEqual(transactionsData[2].id)
-        expect(transactionFound.userId).toEqual(userToken)
+        expect(transactionFound.userId).toEqual(userId)
         expect(transactionFound.amount).toEqual(transactionsData[2].amount)
         expect(transactionFound.date).toEqual(transactionsData[2].date)
         expect(transactionFound.category).toEqual(transactionsData[2].category)
@@ -123,7 +132,7 @@ describe("Testing the transaction service", () => {
 
     it('create transaction', async () => {
         const transaction: Transaction = {
-            userId: userToken,
+            userId,
             amount: 24.66,
             category: 'Alcool',
             date: '2022-02-06',
@@ -158,7 +167,7 @@ describe("Testing the transaction service", () => {
         }
 
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        const transactionDeleted = await transactionsServices.delete(userToken, transactionsData[0].id)
+        const transactionDeleted = await transactionsServices.delete(userId, transactionsData[0].id)
 
         expect(transactionDeleted).not.toBeUndefined()
         expect(transactionDeleted).not.toBeNull()
@@ -178,5 +187,5 @@ describe("Testing the transaction service", () => {
 })
 
 afterAll(async () => {
-    // await db.sequelize.close()
+    await db.sequelize.close()
 });

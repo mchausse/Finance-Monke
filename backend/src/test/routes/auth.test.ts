@@ -6,7 +6,7 @@ import LoginResponse from '../../interface/routes/response/auth'
 
 
 beforeAll(async () => {
-    // await db.sequelize.sync({ force: true })
+    await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the auth route", () => {
@@ -14,7 +14,7 @@ describe("Testing the auth route", () => {
     it('login', async () => {
         const user: User = {
             name: "test",
-            email: "test@test.com",
+            email: "test@test1.com",
             password: "test123",
         }
 
@@ -34,7 +34,7 @@ describe("Testing the auth route", () => {
     it('get token no email', async () => {
         const user: User = {
             name: "test",
-            email: "test@test.com",
+            email: "test@test2.com",
             password: "test123",
         }
 
@@ -54,7 +54,7 @@ describe("Testing the auth route", () => {
     it('get token no password', async () => {
         const user: User = {
             name: "test",
-            email: "test@test.com",
+            email: "test@test3.com",
             password: "test123",
         }
 
@@ -70,4 +70,8 @@ describe("Testing the auth route", () => {
         expect(responseData.token).toBe("")
         expect(responseData.error).toBe("Wrong email or password")
     })
+})
+
+afterAll(async () => {
+    await db.sequelize.close()
 })

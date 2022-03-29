@@ -3,9 +3,8 @@ import db from '../../db/database'
 import UserServices from '../../services/user'
 import usersData from '../mock/user'
 
-
 beforeAll(async () => {
-    // await db.sequelize.sync({ force: true })
+    await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the user service", () => {
@@ -116,3 +115,7 @@ describe("Testing the user service", () => {
         expect(nbusersAfter).toBe(nbusersBefore - 1)
     })
 })
+
+afterAll(async () => {
+    await db.sequelize.close()
+});

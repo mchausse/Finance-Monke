@@ -16,6 +16,17 @@ class AuthService {
         return user.token
     }
 
+    public async getUserId(token: string): Promise<string> {
+        const user: User = await db.User.findOne({
+            where: {
+                token
+            }
+        })
+
+        if(user === null) return ""
+        return user.id
+    }
+
 }
 
 export default AuthService

@@ -1,4 +1,5 @@
 import express from "express"
+import AuthService from "../services/auth";
 import Transaction from "../interface/model/transaction";
 import TransactionsServices from "../services/transactions"
 
@@ -7,8 +8,15 @@ const router = express.Router();
 router.get('/:token', async (req, res) => {
     const token: string = req.params.token
     let transactions: Transaction[] = []
+    let userId: string
+
 
     if(token) {
+        const loginService: AuthService = new AuthService()
+        userId = await loginService.getUserId(token)
+    }
+
+    if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
         transactions = await transactionsServices.getAll(token)
     }
@@ -19,8 +27,15 @@ router.get('/:token', async (req, res) => {
 router.get('/expenses/:token', async (req, res) => {
     const token: string = req.params.token
     let transactions: Transaction[] = []
+    let userId: string
+
 
     if(token) {
+        const loginService: AuthService = new AuthService()
+        userId = await loginService.getUserId(token)
+    }
+
+    if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
         transactions = await transactionsServices.getAllExpenses(token)
     }
@@ -31,8 +46,15 @@ router.get('/expenses/:token', async (req, res) => {
 router.get('/incomes/:token', async (req, res) => {
     const token: string = req.params.token
     let transactions: Transaction[] = []
+    let userId: string
+
 
     if(token) {
+        const loginService: AuthService = new AuthService()
+        userId = await loginService.getUserId(token)
+    }
+
+    if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
         transactions = await transactionsServices.getAllIncomes(token)
     }
@@ -65,8 +87,15 @@ router.delete('/:token/:id', async (req, res) => {
     const token: string = req.params.token
     const id: string = req.params.id
     let transactionsNumber: number
+    let userId: string
+
 
     if(token) {
+        const loginService: AuthService = new AuthService()
+        userId = await loginService.getUserId(token)
+    }
+
+    if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
         transactionsNumber = await transactionsServices.delete(token, id)
     }

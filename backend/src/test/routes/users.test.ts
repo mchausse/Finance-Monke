@@ -6,7 +6,7 @@ import usersData from '../mock/user'
 
 
 beforeAll(async () => {
-    // await db.sequelize.sync({ force: true })
+    await db.sequelize.sync({ force: true })
 })
 
 describe("Testing the user routes", () => {
@@ -63,7 +63,7 @@ describe("Testing the user routes", () => {
     it('create user', async () => {
         const user: User = {
             name: "test",
-            email: "test@test.com",
+            email: "test5@test.com",
             password: "test123",
         }
 
@@ -83,5 +83,5 @@ describe("Testing the user routes", () => {
 })
 
 afterAll(async () => {
-    // await db.sequelize.close()
+    await db.sequelize.close()
 });

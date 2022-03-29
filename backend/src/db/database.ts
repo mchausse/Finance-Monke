@@ -90,4 +90,4 @@ User.hasMany(Transaction, {
     await sequelize.sync()
 })()
 
-export default { User, Transaction }
+export default { User, Transaction, sequelize }
