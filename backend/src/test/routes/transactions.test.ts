@@ -82,7 +82,6 @@ describe("Testing the transaction routes", () => {
         if(!userIdFound) fail()
 
         try {
-            console.log("userIdFound ", userIdFound)
             await db.Transaction.create({
                 ...transactionsData[2],
                 userId: userIdFound

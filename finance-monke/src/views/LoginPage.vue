@@ -56,9 +56,6 @@ export default defineComponent({
     },
     methods: {
         async login(email: string, password: string) {
-            console.log(email)
-            console.log(password)
-
             const response = await axios.post(
                 'http://10.10.10.185:8081/api/auth/login',
                 {
