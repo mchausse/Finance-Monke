@@ -1,4 +1,4 @@
-import { Sequelize, Model, DataTypes } from '@sequelize/core';
+import { Sequelize, Model, DataTypes } from '@sequelize/core'
 
 const sequelize = new Sequelize(
     'postgres',

@@ -1,6 +1,6 @@
 import express from "express"
-import AuthService from "../services/auth";
-import Transaction from "../interface/model/transaction";
+import AuthService from "../services/auth"
+import Transaction from "../interface/model/transaction"
 import TransactionsServices from "../services/transactions"
 
 const router = express.Router();
@@ -10,7 +10,6 @@ router.get('/:token', async (req, res) => {
     let transactions: Transaction[] = []
     let userId: string
 
-
     if(token) {
         const loginService: AuthService = new AuthService()
         userId = await loginService.getUserId(token)
@@ -18,7 +17,7 @@ router.get('/:token', async (req, res) => {
 
     if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        transactions = await transactionsServices.getAll(token)
+        transactions = await transactionsServices.getAll(userId)
     }
 
     res.send(transactions)
@@ -37,7 +36,7 @@ router.get('/expenses/:token', async (req, res) => {
 
     if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        transactions = await transactionsServices.getAllExpenses(token)
+        transactions = await transactionsServices.getAllExpenses(userId)
     }
 
     res.send(transactions)
@@ -48,7 +47,6 @@ router.get('/incomes/:token', async (req, res) => {
     let transactions: Transaction[] = []
     let userId: string
 
-
     if(token) {
         const loginService: AuthService = new AuthService()
         userId = await loginService.getUserId(token)
@@ -56,7 +54,7 @@ router.get('/incomes/:token', async (req, res) => {
 
     if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        transactions = await transactionsServices.getAllIncomes(token)
+        transactions = await transactionsServices.getAllIncomes(userId)
     }
 
     res.send(transactions)
@@ -66,10 +64,16 @@ router.get('/:token/:id', async (req, res) => {
     const token: string = req.params.token
     const id: string = req.params.id
     let transactions: Transaction
+    let userId: string
 
     if(token) {
+        const loginService: AuthService = new AuthService()
+        userId = await loginService.getUserId(token)
+    }
+
+    if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        transactions = await transactionsServices.get(token, id)
+        transactions = await transactionsServices.get(userId, id)
     }
 
     res.send(transactions)
@@ -97,7 +101,7 @@ router.delete('/:token/:id', async (req, res) => {
 
     if(userId) {
         const transactionsServices: TransactionsServices = new TransactionsServices()
-        transactionsNumber = await transactionsServices.delete(token, id)
+        transactionsNumber = await transactionsServices.delete(userId, id)
     }
 
     res.send({

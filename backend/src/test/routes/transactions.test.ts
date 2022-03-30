@@ -34,8 +34,6 @@ describe("Testing the transaction routes", () => {
         if(!userIdFound) fail()
 
         try {
-            console.log("all users ", await db.User.findAll())
-            console.log("userIdFound ", userIdFound)
             await db.Transaction.create({
                 ...transactionsData[0],
                 userId: userIdFound
@@ -45,7 +43,6 @@ describe("Testing the transaction routes", () => {
                 userId: userIdFound
             })
             transactions = await db.Transaction.findAll()
-
         } catch(error) {
             console.log(error)
             fail()
@@ -135,7 +132,6 @@ describe("Testing the transaction routes", () => {
     it('get transaction', async () => {
         const response = await axios.get('http://localhost:8081/api/transactions/'+userToken+"/"+transactionsData[3].id)
         const transactionFound: Transaction = JSON.parse(JSON.stringify(response.data)) as Transaction
-
 
         expect(transactionFound).not.toBeUndefined()
         expect(transactionFound).not.toBeNull()
