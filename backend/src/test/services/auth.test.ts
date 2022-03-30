@@ -45,7 +45,6 @@ describe("Testing the auth service", () => {
             const authService: AuthService = new AuthService()
             const userId: string = await authService.getUserId("ba299f33-bd1c-4344-be0f-19c3db4bbe98")
 
-            console.log("userId: ", userId)
             expect(userId).toBe("")
         } catch(e) {
             console.log(e)
