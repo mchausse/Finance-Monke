@@ -1,6 +1,5 @@
 import Transaction from '../../interface/model/transaction'
 import db from '../../db/database'
-import TransactionsServices from '../../services/transactions'
 import axios from 'axios'
 import transactionsData from '../mock/transaction'
 import User from '../../interface/model/user'
@@ -151,15 +150,15 @@ describe("Testing the transaction routes", () => {
         const userIdFound: string = await authService.getUserId(tokenFound)
         if(!userIdFound) fail()
 
-        const transaction: Transaction = {
-            userId: userIdFound,
+        const transactionData = {
+            token: tokenFound,
             amount: 1.99,
             category: "cat 1",
             date: "2022",
             isExpense: true,
         }
 
-        const response = await axios.post('http://localhost:8081/api/transactions', transaction)
+        const response = await axios.post('http://localhost:8081/api/transactions', transactionData)
         const transactionCreated: Transaction = JSON.parse(JSON.stringify(response.data)) as Transaction
 
         expect(transactionCreated).not.toBeUndefined()
@@ -167,10 +166,10 @@ describe("Testing the transaction routes", () => {
         expect(transactionCreated.id).not.toBeUndefined()
 
         expect(transactionCreated.userId).toEqual(userIdFound)
-        expect(transactionCreated.amount).toEqual(transaction.amount)
-        expect(transactionCreated.date).toEqual(transaction.date)
-        expect(transactionCreated.category).toEqual(transaction.category)
-        expect(transactionCreated.isExpense).toEqual(transaction.isExpense)
+        expect(transactionCreated.amount).toEqual(transactionData.amount)
+        expect(transactionCreated.date).toEqual(transactionData.date)
+        expect(transactionCreated.category).toEqual(transactionData.category)
+        expect(transactionCreated.isExpense).toEqual(transactionData.isExpense)
     })
 
 })

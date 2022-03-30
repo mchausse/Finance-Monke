@@ -80,10 +80,28 @@ router.get('/:token/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const transactionsServices: TransactionsServices = new TransactionsServices()
-    const transactions = await transactionsServices.create(req.body)
+    let transaction: Transaction
+    const transactionData = req.body
+    let userId: string
 
-    res.send(transactions)
+    const token: string = req.body.token
+    if(token) {
+        const loginService: AuthService = new AuthService()
+        userId = await loginService.getUserId(token)
+    }
+
+    if(userId) {
+        const transactionsServices: TransactionsServices = new TransactionsServices()
+        transaction = await transactionsServices.create({
+            userId,
+            amount: transactionData.amount,
+            category: transactionData.category,
+            date: transactionData.date,
+            isExpense: transactionData.isExpense
+        })
+    }
+
+    res.send(transaction)
 })
 
 router.delete('/:token/:id', async (req, res) => {
