@@ -8,7 +8,7 @@
                     <p>{{ transaction.category }}</p>
                 </ion-label>
             </ion-col>
-            <ion-col size="6" id=button-container>
+            <ion-col size="6" id="button-container">
                 <ion-button color="medium" size="large">
                     <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
                 </ion-button>
@@ -19,34 +19,34 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { 
-	IonLabel,
-	IonButton, 
-	IonIcon,
-	IonGrid,
-	IonRow,
-	IonCol 
+import {
+    IonLabel,
+    IonButton,
+    IonIcon,
+    IonGrid,
+    IonRow,
+    IonCol,
 } from '@ionic/vue'
 import { ellipsisHorizontalOutline } from 'ionicons/icons'
 
 export default defineComponent({
-	name: 'TransactionsList',
-	props: {
-		transaction: Object
-	},
-	components: {
-		IonLabel,
-		IonButton,
-		IonIcon,
-		IonGrid,
-		IonRow,
-		IonCol 
-	},
-	setup() {
-		return {
-			ellipsisHorizontalOutline,
-		}
-	}
+    name: 'TransactionsList',
+    props: {
+        transaction: Object,
+    },
+    components: {
+        IonLabel,
+        IonButton,
+        IonIcon,
+        IonGrid,
+        IonRow,
+        IonCol,
+    },
+    setup() {
+        return {
+            ellipsisHorizontalOutline,
+        }
+    },
 })
 </script>
 

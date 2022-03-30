@@ -4,20 +4,42 @@ import Transaction from "../interface/model/transaction"
 
 class TransactionsService {
 
-    public async getAll(token: string): Promise<Transaction[]> {
+    public async getAll(userId: string): Promise<Transaction[]> {
         const transactionList: Transaction[] = await db.Transaction.findAll({
             where: {
-                token
+                userId
             }
         })
 
         return transactionList
     }
 
-    public async get(token: string, id: string): Promise<Transaction> {
+    public async getAllExpenses(userId: string): Promise<Transaction[]> {
+        const transactionList: Transaction[] = await db.Transaction.findAll({
+            where: {
+                userId,
+                isExpense: true
+            }
+        })
+
+        return transactionList
+    }
+
+    public async getAllIncomes(userId: string): Promise<Transaction[]> {
+        const transactionList: Transaction[] = await db.Transaction.findAll({
+            where: {
+                userId,
+                isExpense: false
+            }
+        })
+
+        return transactionList
+    }
+
+    public async get(userId: string, id: string): Promise<Transaction> {
         const transaction: Transaction = await db.Transaction.findOne({
             where: {
-                token,
+                userId,
                 id
             }
         })
@@ -25,16 +47,16 @@ class TransactionsService {
         return transaction
     }
 
-    public async create(transaction: Transaction): Promise<Transaction> {
+    public async create(transaction: any): Promise<Transaction> {
         const transactionCreated = await db.Transaction.create(transaction)
 
         return transactionCreated
     }
 
-    public async delete(token: string, id: string): Promise<number> {
+    public async delete(userId: string, id: string): Promise<number> {
         const transactionDeleted = await db.Transaction.destroy({
             where: {
-                token,
+                userId,
                 id
             }
         })

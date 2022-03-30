@@ -63,7 +63,7 @@ describe("Testing the user routes", () => {
     it('create user', async () => {
         const user: User = {
             name: "test",
-            email: "test@test.com",
+            email: "test5@test.com",
             password: "test123",
         }
 

@@ -1,6 +1,6 @@
 export default interface Transaction {
     id?: string
-    userId: string
+    token: string
     amount: number
     category: string
     date: string

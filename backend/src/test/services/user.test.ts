@@ -3,7 +3,6 @@ import db from '../../db/database'
 import UserServices from '../../services/user'
 import usersData from '../mock/user'
 
-
 beforeAll(async () => {
     await db.sequelize.sync({ force: true })
 })
