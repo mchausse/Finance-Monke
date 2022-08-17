@@ -5,7 +5,7 @@ import User from "../interface/model/user"
 class UserService {
 
     public async getAll(): Promise<User[]> {
-        const userList: User[] = await db.User.findAll()
+        const userList: User[] = await db.UserTest.findAll()
 
         return userList
     }

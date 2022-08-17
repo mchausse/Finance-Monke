@@ -10,7 +10,7 @@ describe("Testing the user models", () => {
 
     it('create user', async () => {
         try {
-            const userCreated = await db.User.create(usersData[0])
+            const userCreated = await db.UserTest.create(usersData[0] as any)
 
             expect(userCreated).not.toBeUndefined()
             expect(userCreated).not.toBeNull()
@@ -48,8 +48,8 @@ describe("Testing the user models", () => {
         let usersFound: User[]
 
         try {
-            await db.User.create(usersData[1])
-            usersFound = await db.User.findAll()
+            await db.UserTest.create(usersData[1] as any)
+            usersFound = await db.UserTest.findAll()
         } catch(error) {
             console.log(error)
             fail()

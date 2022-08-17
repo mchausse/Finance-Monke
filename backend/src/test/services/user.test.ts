@@ -13,8 +13,8 @@ describe("Testing the user service", () => {
         let users: User[]
 
         try {
-            await db.User.create(usersData[0])
-            await db.User.create(usersData[1])
+            await db.User.create(usersData[0] as any)
+            await db.User.create(usersData[1] as any)
             users = await db.User.findAll()
 
         } catch(error) {
@@ -42,7 +42,7 @@ describe("Testing the user service", () => {
         let user: User
 
         try {
-            user = await db.User.create(usersData[2])
+            user = await db.User.create(usersData[2] as any)
 
         } catch(error) {
             console.log(error)
