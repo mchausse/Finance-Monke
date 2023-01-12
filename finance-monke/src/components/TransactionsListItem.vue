@@ -5,7 +5,6 @@
                 <ion-label>
                     <h2>{{ transaction.amount }}</h2>
                     <h3>{{ transaction.date }}</h3>
-                    <p>{{ transaction.category }}</p>
                 </ion-label>
             </ion-col>
             <ion-col size="6" id="button-container">

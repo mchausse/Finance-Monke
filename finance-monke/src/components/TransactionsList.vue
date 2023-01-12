@@ -31,10 +31,22 @@ export default defineComponent({
     },
     methods: {
         async getExpenses(token: string): Promise<Transaction[]> {
+            let transactions: Transaction[] = []
+
             const response = await axios.get(
-                'http://10.10.10.185:8081/api/transactions/' + token
+                'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/transactions'
             )
-            return JSON.parse(JSON.stringify(response.data))
+            let resJSON = JSON.parse(JSON.stringify(response.data))
+            
+            resJSON.documents.forEach((e:any) => {
+                transactions.push({
+                    id: e.name,
+                    amount: e.fields.amount.doubleValue,
+                    date: e.fields.date.timestampValue.split('T')[0]
+                })
+            })
+
+            return transactions
         },
     },
     async mounted() {

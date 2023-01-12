@@ -7,16 +7,26 @@
         <ion-list id="input-list">
             <ion-item>
                 <ion-label>Price</ion-label>
+                
                 <ion-input
-                    placeholder="10.99"
-                    type="number"
+                    @ionInput="price"
+                    placeholder="$"
+                    type="text"
                     min="0"
                     maxlength="9"></ion-input>
             </ion-item>
-            <ion-item>
-                <ion-label>Category</ion-label>
-                <ion-input placeholder="Groceries" maxlength="50"></ion-input>
-            </ion-item>
+                
+            <ion-list>
+                <ion-item>
+                <ion-select placeholder="Select the user"
+                        v-model="user">
+                    <ion-select-option
+                        v-for="user in users"
+                        :key="user.id"
+                        :value="user.id">{{ user.name }}</ion-select-option>
+                </ion-select>
+                </ion-item>
+            </ion-list>
             <ion-item>
                 <ion-grid>
                     <ion-row>
@@ -35,7 +45,7 @@
                         <ion-col size="9">
                             <ion-button
                                 id="trigger-button"
-                                @click="closeModal"
+                                @click="addTransaction"
                                 color="success"
                                 size="large"
                                 expand="block">
@@ -65,11 +75,15 @@ import {
     IonCol,
     IonCard,
     IonTitle,
+    IonSelect,
+    IonSelectOption
 } from '@ionic/vue'
 import {
     arrowForwardCircleOutline,
     arrowBackCircleOutline,
 } from 'ionicons/icons'
+import axios from 'axios'
+import User from '../../model/user'
 
 export default defineComponent({
     name: 'AddExpenseModal',
@@ -83,10 +97,11 @@ export default defineComponent({
         IonCol,
         IonCard,
         IonTitle,
+        IonSelect,
+        IonSelectOption
     },
     setup() {
         const closeModal = () => {
-            console.log('Close')
             modalController.dismiss()
         }
 
@@ -94,6 +109,64 @@ export default defineComponent({
             closeModal,
             arrowForwardCircleOutline,
             arrowBackCircleOutline,
+        }
+    },
+    methods: {
+        async getUsers(): Promise<User[]> {
+            let users: User[] = []
+
+            const response = await axios.get(
+                'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/users'
+            )
+            let resJSON = JSON.parse(JSON.stringify(response.data))
+            
+            resJSON.documents.forEach((e:any) => {
+                users.push({
+                    id: e.name,
+                    name: e.fields.name.stringValue
+                })
+            })
+
+            return users
+        },
+        price(ev: any) {
+            this.truePrice = +ev.target.value
+        },
+        async addTransaction() {
+            console.log("price", this.truePrice)
+            console.log("user", this.user)
+
+            const response = await axios.post(
+                'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/transactions'
+                ,{
+                    "fields": {
+                        "amount": {
+                            "doubleValue": this.truePrice
+                        },
+                        "user": {
+                            "referenceValue": "projects/quickpay-f5a8e/databases/(default)/documents/users/nLYEYiLWbHKBcKMRxx50"
+                        },
+                        "date": {
+                            "timestampValue": "2023-01-12T05:00:00.313Z"
+                        }
+                    }
+                }
+            )
+            console.log(response)
+            modalController.dismiss()
+        },
+    },
+    async mounted() {
+        const userToken = localStorage.getItem('userToken')
+        if (userToken) {
+            this.users = await this.getUsers()
+        }
+    },
+    data() {
+        return {
+            users: [] as User[],
+            user: "",
+            truePrice: 0
         }
     },
 })
@@ -105,7 +178,7 @@ export default defineComponent({
     padding-bottom: 2.25em;
     text-align: center;
     font-size: 50px;
-    color: white;
+    color: black;
 }
 
 #toolbar {

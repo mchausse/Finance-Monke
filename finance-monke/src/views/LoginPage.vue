@@ -56,7 +56,7 @@ export default defineComponent({
     },
     methods: {
         async login(email: string, password: string) {
-            const response = await axios.post(
+            /* const response = await axios.post(
                 'http://10.10.10.185:8081/api/auth/login',
                 {
                     email,
@@ -67,6 +67,8 @@ export default defineComponent({
             const userToken = responseData.token
 
             if (userToken) localStorage.setItem('userToken', userToken)
+            window.location.href = '/folder/Expenses' */
+            localStorage.setItem('userToken', "developpement")
             window.location.href = '/folder/Expenses'
         },
     },
