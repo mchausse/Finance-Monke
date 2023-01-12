@@ -1,16 +1,13 @@
-import User from '../../interface/model/user'
-import db from '../../db/database'
+import { collections } from '../../db/database'
 import usersData from '../mock/user'
-
-beforeAll(async () => {
-    await db.sequelize.sync({ force: true })
-})
+import User from '../../interface/model/user'
 
 describe("Testing the user models", () => {
 
     it('create user', async () => {
         try {
-            const userCreated = await db.UserTest.create(usersData[0] as any)
+            await collections.users.insertOne(usersData[0])
+            const userCreated = await collections.users.findOne({_id: usersData[0].id})
 
             expect(userCreated).not.toBeUndefined()
             expect(userCreated).not.toBeNull()
@@ -28,7 +25,7 @@ describe("Testing the user models", () => {
 
     it('get user', async () => {
         try {
-            const userFound = await db.User.findOne({ where: { id: usersData[0].id }})
+            const userFound = await collections.users.findOne({ where: { id: usersData[0].id }})
 
             expect(userFound).not.toBeUndefined()
             expect(userFound).not.toBeNull()
@@ -48,8 +45,8 @@ describe("Testing the user models", () => {
         let usersFound: User[]
 
         try {
-            await db.UserTest.create(usersData[1] as any)
-            usersFound = await db.UserTest.findAll()
+            await collections.users.insertOne(usersData[1] as any)
+            usersFound = await collections.users.find<User>({}).toArray() as User[]
         } catch(error) {
             console.log(error)
             fail()
@@ -69,7 +66,8 @@ describe("Testing the user models", () => {
 
     it('remove a user', async () => {
         try {
-            const userDeleted = await db.User.destroy({ where: { id: usersData[0].id }})
+            await collections.users.deleteOne({ _id: usersData[0].id })
+            const userDeleted: User = await collections.users.findOne<User>({ _id: usersData[0].id }) as User
 
             expect(userDeleted).not.toBeUndefined()
             expect(userDeleted).not.toBeNull()
@@ -81,7 +79,3 @@ describe("Testing the user models", () => {
         }
     })
 })
-
-afterAll(async () => {
-    await db.sequelize.close()
-});

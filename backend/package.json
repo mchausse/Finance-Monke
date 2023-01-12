@@ -8,7 +8,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node .",
-    "test": "jest --runInBand",
+    "test": "jest --verbose",
     "migrate": "node ./src/db/bin/migrate"
   },
   "keywords": [],
@@ -19,7 +19,9 @@
     "axios": "^0.26.1",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
     "express": "^4.17.3",
+    "mongodb": "^4.8.1",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.1.13",

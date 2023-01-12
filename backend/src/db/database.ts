@@ -1,168 +1,24 @@
-import { Sequelize, Model, DataTypes } from '@sequelize/core'
+import * as mongoDB from "mongodb"
+import * as dotenv from "dotenv"
 
-const sequelize = new Sequelize(
-    'postgres',
-    'postgres',
-    'postgres',
-    {
-        host: 'localhost',
-        port: 5432,
-        dialect: 'postgres',
-        dialectOptions: {}
-    })
+export const collections: { users?: mongoDB.Collection,
+                            transactions? : mongoDB.Collection} = {}
 
-class User extends Model {
-    declare id: string
-    declare token: string
-    declare name: string
-    declare email: string
-    declare password: string
-}
+export async function connectToDatabase () {
+    dotenv.config()
 
-class Transaction extends Model {
-    declare id: string
-    declare amount: number
-    declare category: string
-    declare date: string
-    declare isExpense: boolean
-    declare userId: string
-}
+    const client: mongoDB.MongoClient = new mongoDB.MongoClient(process.env.DB_CONN_STRING)
 
-class UserTest extends Model {
-    declare id: string
-    declare token: string
-    declare name: string
-    declare email: string
-    declare password: string
-}
+    await client.connect()
 
-class TransactionTest extends Model {
-    declare id: string
-    declare amount: number
-    declare category: string
-    declare date: string
-    declare isExpense: boolean
-    declare userId: string
-}
+    const db: mongoDB.Db = client.db(process.env.DB_NAME)
 
-User.init({
-    id: {
-        primaryKey: true,
-        type: new DataTypes.UUID,
-        defaultValue: new DataTypes.UUIDV4
-    },
-    token: {
-        type: new DataTypes.UUID,
-        defaultValue: new DataTypes.UUIDV4
-    },
-    name: {
-        type: new DataTypes.STRING(128)
-    },
-    email: {
-        type: new DataTypes.STRING(128),
-        unique: true
-    },
-    password: {
-        type: new DataTypes.STRING(128)
-    }
-}, {
-    tableName: "users",
-    sequelize,
-})
+    const usersCollection: mongoDB.Collection = db.collection(process.env.STATS_COLLECTION_NAME)
+    const compteurCollection: mongoDB.Collection = db.collection(process.env.CNT_COLLECTION_NAME)
 
-UserTest.init({
-    id: {
-        primaryKey: true,
-        type: new DataTypes.UUID,
-        defaultValue: new DataTypes.UUIDV4
-    },
-    token: {
-        type: new DataTypes.UUID,
-        defaultValue: new DataTypes.UUIDV4
-    },
-    name: {
-        type: new DataTypes.STRING(128)
-    },
-    email: {
-        type: new DataTypes.STRING(128),
-        unique: true
-    },
-    password: {
-        type: new DataTypes.STRING(128)
-    }
-}, {
-    tableName: "usersTest",
-    sequelize,
-})
+    collections.users = usersCollection
+    collections.transactions = compteurCollection
 
-Transaction.init({
-    id: {
-        primaryKey: true,
-        type: new DataTypes.UUID,
-        defaultValue: new DataTypes.UUIDV4
-    },
-    amount: {
-        type: new DataTypes.DOUBLE
-    },
-    category: {
-        type: new DataTypes.STRING(128)
-    },
-    date: {
-        type: new DataTypes.STRING(128)
-    },
-    isExpense: {
-        type: new DataTypes.BOOLEAN,
-        defaultValue: true
-    },
-    userId: {
-        type: new DataTypes.UUID,
-    }
-}, {
-    tableName: "transactions",
-    sequelize,
-})
-
-TransactionTest.init({
-    id: {
-        primaryKey: true,
-        type: new DataTypes.UUID,
-        defaultValue: new DataTypes.UUIDV4
-    },
-    amount: {
-        type: new DataTypes.DOUBLE
-    },
-    category: {
-        type: new DataTypes.STRING(128)
-    },
-    date: {
-        type: new DataTypes.STRING(128)
-    },
-    isExpense: {
-        type: new DataTypes.BOOLEAN,
-        defaultValue: true
-    },
-    userId: {
-        type: new DataTypes.UUID,
-    }
-}, {
-    tableName: "transactionsTest",
-    sequelize,
-})
-
-User.hasMany(Transaction, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'transactions'
-});
-
-UserTest.hasMany(TransactionTest, {
-    sourceKey: 'id',
-    foreignKey: 'userId',
-    as: 'transactions'
-});
-
-(async () => {
-    await sequelize.sync()
-})()
-
-export default { User, UserTest, TransactionTest, Transaction, sequelize }
+    console.log(`Successfully connected to database: ${db.databaseName} and collection: ${usersCollection.collectionName}`)
+    console.log(`waiting for localhost...`)
+ }

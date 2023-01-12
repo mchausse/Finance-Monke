@@ -1,9 +1,9 @@
-import { v4 as uuidv4 } from 'uuid'
+import { ObjectId } from "mongodb"
 import Transaction from "../../interface/model/transaction"
 
 const transactions: Transaction[] = [
     {
-        id: uuidv4(),
+        id: new ObjectId(),
         userId: "1de03d79-d0b4-4ff6-a654-d75ff59beaae",
         amount: 1.99,
         category: 'Food',
@@ -11,7 +11,7 @@ const transactions: Transaction[] = [
         isExpense: true
     },
     {
-        id: uuidv4(),
+        id: new ObjectId(),
         userId: "1de03d79-d0b4-4ff6-a654-d75ff59beaae",
         amount: 27,
         category: 'Furniture',
@@ -19,7 +19,7 @@ const transactions: Transaction[] = [
         isExpense: false
     },
     {
-        id: uuidv4(),
+        id: new ObjectId(),
         userId: "1de03d79-d0b4-4ff6-a654-d75ff59beaae",
         amount: 6.99,
         category: 'Alcool',
@@ -27,7 +27,7 @@ const transactions: Transaction[] = [
         isExpense: false
     },
     {
-        id: uuidv4(),
+        id: new ObjectId(),
         userId: "1de03d79-d0b4-4ff6-a654-d75ff59beaae",
         amount: 24.66,
         category: 'Alcool',
@@ -35,7 +35,7 @@ const transactions: Transaction[] = [
         isExpense: true
     },
     {
-        id: uuidv4(),
+        id: new ObjectId(),
         userId: "1de03d79-d0b4-4ff6-a654-d75ff59beaae",
         amount: 22.62,
         category: 'Alcool',

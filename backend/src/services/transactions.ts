@@ -1,67 +1,63 @@
-import db from '../db/database'
-
+import { ObjectId } from 'mongodb'
+import { collections } from '../db/database'
 import Transaction from "../interface/model/transaction"
 
 class TransactionsService {
 
     public async getAll(userId: string): Promise<Transaction[]> {
-        const transactionList: Transaction[] = await db.Transaction.findAll({
-            where: {
-                userId
-            }
-        })
+        const filter = {
+            userId: userId
+        }
+        const transactions: Transaction[] = await collections.transactions.find<Transaction>(filter).toArray()
 
-        return transactionList
+        return transactions
     }
 
     public async getAllExpenses(userId: string): Promise<Transaction[]> {
-        const transactionList: Transaction[] = await db.Transaction.findAll({
-            where: {
-                userId,
-                isExpense: true
-            }
-        })
+        const filter = {
+            userId: userId,
+            isExpense: true
+        }
+        const transactions: Transaction[] = await collections.transactions.find<Transaction>(filter).toArray()
 
-        return transactionList
+        return transactions
     }
 
     public async getAllIncomes(userId: string): Promise<Transaction[]> {
-        const transactionList: Transaction[] = await db.Transaction.findAll({
-            where: {
-                userId,
-                isExpense: false
-            }
-        })
+        const filter = {
+            userId: userId,
+            isExpense: false
+        }
+        const transactions: Transaction[] = await collections.transactions.find<Transaction>(filter).toArray()
 
-        return transactionList
+        return transactions
     }
 
     public async get(userId: string, id: string): Promise<Transaction> {
-        const transaction: Transaction = await db.Transaction.findOne({
-            where: {
-                userId,
-                id
-            }
-        })
+        const filter = {
+            _id: id,
+            userId: userId
+        }
+        const transaction: Transaction = await collections.transactions.findOne(filter)
 
         return transaction
     }
 
-    public async create(transaction: any): Promise<Transaction> {
-        const transactionCreated = await db.Transaction.create(transaction)
+    public async insertOne(transactions: any): Promise<Transaction> {
+        const transactionsCreated = await collections.transactions.insertOne(transactions)
 
-        return transactionCreated
+        return transactionsCreated
     }
 
     public async delete(userId: string, id: string): Promise<number> {
-        const transactionDeleted = await db.Transaction.destroy({
+        const transactionsDeleted = await collections.transactions.deleteOne({
             where: {
                 userId,
                 id
             }
         })
 
-        return transactionDeleted
+        return transactionsDeleted
     }
 
 }

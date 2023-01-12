@@ -1,7 +1,7 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   roots: [
-    "src/",
+    "src/test",
   ],
   collectCoverage: true,
   preset: 'ts-jest',

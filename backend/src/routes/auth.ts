@@ -4,8 +4,8 @@ import AuthService from "../services/auth"
 const router = express.Router();
 
 router.post('/login', async (req, res) => {
-    const email:string = req.body.email
-    const password:string = req.body.password
+    const email: string = req.body.email
+    const password: string = req.body.password
     let token: string = ""
 
     if((email && password) !== "") {

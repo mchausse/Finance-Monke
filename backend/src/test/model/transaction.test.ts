@@ -1,5 +1,4 @@
 import Transaction from '../../interface/model/transaction'
-import db from '../../db/database'
 import transactionsData from '../mock/transaction'
 import User from '../../interface/model/user'
 import UserService from '../../services/user'
