@@ -65,6 +65,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+#content {
+    background-color: aliceblue;
+}
 #transaction-list {
     width: 97.5%;
     margin-left: 10px;

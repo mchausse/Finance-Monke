@@ -16,17 +16,21 @@
                     maxlength="9"></ion-input>
             </ion-item>
                 
-            <ion-list>
-                <ion-item>
-                <ion-select placeholder="Select the user"
-                        v-model="user">
+            <ion-item>
+                <ion-label>User</ion-label>
+
+                <ion-select 
+                    placeholder="Select the user"
+                    v-model="user">
+
                     <ion-select-option
                         v-for="user in users"
                         :key="user.id"
-                        :value="user.id">{{ user.name }}</ion-select-option>
+                        :value="user.id">
+                        {{ user.name }}
+                    </ion-select-option>
                 </ion-select>
-                </ion-item>
-            </ion-list>
+            </ion-item>
             <ion-item>
                 <ion-grid>
                     <ion-row>
@@ -34,7 +38,7 @@
                             <ion-button
                                 id="trigger-button"
                                 @click="closeModal"
-                                color="danger"
+                                color="light"
                                 size="large"
                                 expand="block">
                                 <ion-icon
@@ -46,7 +50,7 @@
                             <ion-button
                                 id="trigger-button"
                                 @click="addTransaction"
-                                color="success"
+                                class="submit-button"
                                 size="large"
                                 expand="block">
                                 <ion-icon
@@ -76,7 +80,10 @@ import {
     IonCard,
     IonTitle,
     IonSelect,
-    IonSelectOption
+    IonSelectOption,
+    IonIcon,
+    IonLabel,
+    IonInput
 } from '@ionic/vue'
 import {
     arrowForwardCircleOutline,
@@ -98,7 +105,10 @@ export default defineComponent({
         IonCard,
         IonTitle,
         IonSelect,
-        IonSelectOption
+        IonSelectOption,
+        IonIcon,
+        IonLabel,
+        IonInput
     },
     setup() {
         const closeModal = () => {
@@ -133,10 +143,8 @@ export default defineComponent({
             this.truePrice = +ev.target.value
         },
         async addTransaction() {
-            console.log("price", this.truePrice)
-            console.log("user", this.user)
 
-            const response = await axios.post(
+            await axios.post(
                 'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/transactions'
                 ,{
                     "fields": {
@@ -152,7 +160,6 @@ export default defineComponent({
                     }
                 }
             )
-            console.log(response)
             modalController.dismiss()
         },
     },
@@ -178,9 +185,15 @@ export default defineComponent({
     padding-bottom: 2.25em;
     text-align: center;
     font-size: 50px;
-    color: black;
+    background-color: #296EB4;
+    color: aliceblue;
 }
 
+ion-title,
+ion-header,
+ion-toolbar {
+    border-radius: 15px;
+}
 #toolbar {
     width: 95%;
     margin-top: 10px;
@@ -193,5 +206,9 @@ export default defineComponent({
     position: absolute;
     bottom: 0px;
     width: 100%;
+}
+
+.submit-button {
+    color: #fdb833;
 }
 </style>
