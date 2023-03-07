@@ -17,8 +17,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      - run: cd finance-monke
-      - run: npm i
-      - run: npm run build --if-present
-      - run: npm run lint
-      - run: npm run test:unit
+      - run: cd finance-monke && npm i
+      - run: cd finance-monke && npm run build --if-present
+      - run: cd finance-monke && npm run lint
+      - run: cd finance-monke && npm run test:unit
