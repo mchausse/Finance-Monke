@@ -5,7 +5,7 @@ import TransactionsServices from "../services/transactions"
 
 const router = express.Router();
 
-router.get('/:token', async (req, res) => {
+/* router.get('/:token', async (req, res) => {
     const token: string = req.params.token
     let transactions: Transaction[] = []
     let userId: string
@@ -125,6 +125,6 @@ router.delete('/:token/:id', async (req, res) => {
     res.send({
         "Number of transactions deleted": transactionsNumber
     })
-})
+}) */
 
 export default router

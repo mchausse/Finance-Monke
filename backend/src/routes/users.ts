@@ -3,7 +3,7 @@ import UserServices from "../services/user"
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+/* router.get('/', async (req, res) => {
     const usersServices: UserServices = new UserServices()
     const users = await usersServices.getAll()
 
@@ -31,6 +31,6 @@ router.delete('/:id', async (req, res) => {
     res.send({
         "Number of transactions deleted": users
     })
-})
+}) */
 
 export default router

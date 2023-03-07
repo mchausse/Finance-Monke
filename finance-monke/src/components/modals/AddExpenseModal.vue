@@ -7,15 +7,29 @@
         <ion-list id="input-list">
             <ion-item>
                 <ion-label>Price</ion-label>
+                
                 <ion-input
-                    placeholder="10.99"
-                    type="number"
+                    @ionInput="price"
+                    placeholder="$"
+                    type="text"
                     min="0"
                     maxlength="9"></ion-input>
             </ion-item>
+                
             <ion-item>
-                <ion-label>Category</ion-label>
-                <ion-input placeholder="Groceries" maxlength="50"></ion-input>
+                <ion-label>User</ion-label>
+
+                <ion-select 
+                    placeholder="Select the user"
+                    v-model="user">
+
+                    <ion-select-option
+                        v-for="user in users"
+                        :key="user.id"
+                        :value="user.id">
+                        {{ user.name }}
+                    </ion-select-option>
+                </ion-select>
             </ion-item>
             <ion-item>
                 <ion-grid>
@@ -24,7 +38,7 @@
                             <ion-button
                                 id="trigger-button"
                                 @click="closeModal"
-                                color="danger"
+                                color="light"
                                 size="large"
                                 expand="block">
                                 <ion-icon
@@ -35,8 +49,8 @@
                         <ion-col size="9">
                             <ion-button
                                 id="trigger-button"
-                                @click="closeModal"
-                                color="success"
+                                @click="addTransaction"
+                                class="submit-button"
                                 size="large"
                                 expand="block">
                                 <ion-icon
@@ -65,11 +79,18 @@ import {
     IonCol,
     IonCard,
     IonTitle,
+    IonSelect,
+    IonSelectOption,
+    IonIcon,
+    IonLabel,
+    IonInput
 } from '@ionic/vue'
 import {
     arrowForwardCircleOutline,
     arrowBackCircleOutline,
 } from 'ionicons/icons'
+import axios from 'axios'
+import User from '../../model/user'
 
 export default defineComponent({
     name: 'AddExpenseModal',
@@ -83,10 +104,14 @@ export default defineComponent({
         IonCol,
         IonCard,
         IonTitle,
+        IonSelect,
+        IonSelectOption,
+        IonIcon,
+        IonLabel,
+        IonInput
     },
     setup() {
         const closeModal = () => {
-            console.log('Close')
             modalController.dismiss()
         }
 
@@ -94,6 +119,61 @@ export default defineComponent({
             closeModal,
             arrowForwardCircleOutline,
             arrowBackCircleOutline,
+        }
+    },
+    methods: {
+        async getUsers(): Promise<User[]> {
+            let users: User[] = []
+
+            const response = await axios.get(
+                'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/users'
+            )
+            let resJSON = JSON.parse(JSON.stringify(response.data))
+            
+            resJSON.documents.forEach((e:any) => {
+                users.push({
+                    id: e.name,
+                    name: e.fields.name.stringValue
+                })
+            })
+
+            return users
+        },
+        price(ev: any) {
+            this.truePrice = +ev.target.value
+        },
+        async addTransaction() {
+
+            await axios.post(
+                'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/transactions'
+                ,{
+                    'fields': {
+                        'amount': {
+                            'doubleValue': this.truePrice
+                        },
+                        'user': {
+                            'referenceValue': 'projects/quickpay-f5a8e/databases/(default)/documents/users/nLYEYiLWbHKBcKMRxx50'
+                        },
+                        'date': {
+                            'timestampValue': '2023-01-12T05:00:00.313Z'
+                        }
+                    }
+                }
+            )
+            modalController.dismiss()
+        },
+    },
+    async mounted() {
+        const userToken = localStorage.getItem('userToken')
+        if (userToken) {
+            this.users = await this.getUsers()
+        }
+    },
+    data() {
+        return {
+            users: [] as User[],
+            user: '',
+            truePrice: 0
         }
     },
 })
@@ -105,9 +185,15 @@ export default defineComponent({
     padding-bottom: 2.25em;
     text-align: center;
     font-size: 50px;
-    color: white;
+    background-color: #296EB4;
+    color: aliceblue;
 }
 
+ion-title,
+ion-header,
+ion-toolbar {
+    border-radius: 15px;
+}
 #toolbar {
     width: 95%;
     margin-top: 10px;
@@ -120,5 +206,9 @@ export default defineComponent({
     position: absolute;
     bottom: 0px;
     width: 100%;
+}
+
+.submit-button {
+    color: #fdb833;
 }
 </style>

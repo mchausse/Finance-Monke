@@ -1,10 +1,8 @@
-import db from '../db/database'
-
 import User from "../interface/model/user"
 
 class UserService {
 
-    public async getAll(): Promise<User[]> {
+    /* public async getAll(): Promise<User[]> {
         const userList: User[] = await db.User.findAll()
 
         return userList
@@ -34,7 +32,7 @@ class UserService {
         })
 
         return userDeleted
-    }
+    } */
 
 }
 

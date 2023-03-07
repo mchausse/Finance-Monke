@@ -1,20 +1,21 @@
-import db from '../db/database'
-
 import Transaction from "../interface/model/transaction"
+import { collection, getDocs } from "firebase/firestore"
+import db from "../db/firebaseConfig"
+
 
 class TransactionsService {
 
     public async getAll(userId: string): Promise<Transaction[]> {
-        const transactionList: Transaction[] = await db.Transaction.findAll({
-            where: {
-                userId
-            }
-        })
 
-        return transactionList
+        const querySnapshot = await getDocs(collection(db, "transactions"));
+        querySnapshot.forEach((doc) => {
+            console.log(`${doc.id} => ${doc.data()}`);
+        });
+
+        return []
     }
 
-    public async getAllExpenses(userId: string): Promise<Transaction[]> {
+    /* public async getAllExpenses(userId: string): Promise<Transaction[]> {
         const transactionList: Transaction[] = await db.Transaction.findAll({
             where: {
                 userId,
@@ -62,7 +63,7 @@ class TransactionsService {
         })
 
         return transactionDeleted
-    }
+    } */
 
 }
 

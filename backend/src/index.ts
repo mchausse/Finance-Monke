@@ -4,7 +4,6 @@ import transactions from "./routes/transactions"
 import users from "./routes/users"
 import auth from "./routes/auth"
 import cors from "cors"
-import * as db from './db/database'
 
 const app = express()
 const port = 8081

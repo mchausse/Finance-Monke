@@ -3,13 +3,12 @@
         <ion-row>
             <ion-col size="6">
                 <ion-label>
-                    <h2>{{ transaction.amount }}</h2>
-                    <h3>{{ transaction.date }}</h3>
-                    <p>{{ transaction.category }}</p>
+                    <h2>{{ transaction?.amount }}</h2>
+                    <h3>{{ transaction?.date }}</h3>
                 </ion-label>
             </ion-col>
             <ion-col size="6" id="button-container">
-                <ion-button color="medium" size="large">
+                <ion-button color="light">
                     <ion-icon :icon="ellipsisHorizontalOutline"></ion-icon>
                 </ion-button>
             </ion-col>
@@ -46,7 +45,7 @@ export default defineComponent({
         return {
             ellipsisHorizontalOutline,
         }
-    },
+    }
 })
 </script>
 
