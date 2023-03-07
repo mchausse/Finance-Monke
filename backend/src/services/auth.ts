@@ -1,10 +1,8 @@
-import db from '../db/database'
-
 import User from "../interface/model/user"
 
 class AuthService {
 
-    public async getToken(email: string, password: string): Promise<string> {
+    /* public async getToken(email: string, password: string): Promise<string> {
         const user: User = await db.User.findOne({
             where: {
                 email,
@@ -25,7 +23,7 @@ class AuthService {
 
         if(user === null) return ""
         return user.id
-    }
+    } */
 
 }
 
