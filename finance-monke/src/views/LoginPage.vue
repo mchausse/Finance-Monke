@@ -68,7 +68,7 @@ export default defineComponent({
 
             if (userToken) localStorage.setItem('userToken', userToken)
             window.location.href = '/folder/Expenses' */
-            localStorage.setItem('userToken', "developpement")
+            localStorage.setItem('userToken', 'developpement')
             window.location.href = '/folder/Expenses'
         },
     },

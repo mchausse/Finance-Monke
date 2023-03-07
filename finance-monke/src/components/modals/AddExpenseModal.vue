@@ -147,15 +147,15 @@ export default defineComponent({
             await axios.post(
                 'https://firestore.googleapis.com/v1/projects/quickpay-f5a8e/databases/(default)/documents/transactions'
                 ,{
-                    "fields": {
-                        "amount": {
-                            "doubleValue": this.truePrice
+                    'fields': {
+                        'amount': {
+                            'doubleValue': this.truePrice
                         },
-                        "user": {
-                            "referenceValue": "projects/quickpay-f5a8e/databases/(default)/documents/users/nLYEYiLWbHKBcKMRxx50"
+                        'user': {
+                            'referenceValue': 'projects/quickpay-f5a8e/databases/(default)/documents/users/nLYEYiLWbHKBcKMRxx50'
                         },
-                        "date": {
-                            "timestampValue": "2023-01-12T05:00:00.313Z"
+                        'date': {
+                            'timestampValue': '2023-01-12T05:00:00.313Z'
                         }
                     }
                 }
@@ -172,7 +172,7 @@ export default defineComponent({
     data() {
         return {
             users: [] as User[],
-            user: "",
+            user: '',
             truePrice: 0
         }
     },
